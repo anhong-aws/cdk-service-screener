@@ -1,0 +1,54 @@
+{
+  "KeyRotationEnabled": {
+      "category": "S",
+      "^description": "You have {$COUNT} CMK does not have automatic rotation enabled. Rotating encryption keys helps reduce the potential impact of a compromised key because data encrypted with a new key can't be accessed with a previous key that might have been exposed.",
+      "downtime": 0,
+      "slowness": 0,
+      "additionalCost": 0,
+      "needFullTest": 0,
+      "criticality": "M",
+      "shortDesc": "Enable Key Rotation",
+      "ref": [
+          "[Enable CMK Rotation]<https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-enable-disable>"
+      ]
+  },
+  "AdminIsGrantor": {
+      "category": "S",
+      "^description": "It is recommended to separate the usage permissions from administration permissions associated withthe key. Identify any publicly accessible AWS Key Management Service master keys and update their access policy in order to stop any unsigned requests made to these resources.",
+      "downtime": 0,
+      "slowness": 0,
+      "additionalCost": 0,
+      "needFullTest": 0,
+      "criticality": "H",
+      "shortDesc": "Separate Admin and Grantor",
+      "ref": [
+          "[Best practices for AWS KMS grants]<https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant-best-practices>"
+      ]
+  },
+  "KeyInPendingDeletion":{
+    "category": "O",
+      "^description": "[Warning] {$COUNT} KMS key is under Pending Deletion Stage. KMS keys cannot be recovered once deleted. Data encrypted under a KMS key is also permanently unrecoverable if the KMS key is deleted. If meaningful data has been encrypted under a KMS key scheduled for deletion, consider decrypting the data or re-encrypting the data under a new KMS key unless you are intentionally performing a cryptographic erasure.",
+      "downtime": 0,
+      "slowness": 0,
+      "additionalCost": 0,
+      "needFullTest": 0,
+      "criticality": "I",
+      "shortDesc": "[Warning] Ensure intentional deletion",
+      "ref": [
+          "[KMS Key State Explanation]<https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html>"
+      ]
+  },
+  "DisabledKey":{
+    "category": "O",
+      "^description": "[Informational], no action needed. {$COUNT} KMS key is under Disabled Stage.",
+      "downtime": 0,
+      "slowness": 0,
+      "additionalCost": 0,
+      "needFullTest": 0,
+      "criticality": "I",
+      "shortDesc": "[Info] No Action Needed",
+      "ref": [
+          "[KMS Key State Explanation]<https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html>"
+      ]
+  }
+}

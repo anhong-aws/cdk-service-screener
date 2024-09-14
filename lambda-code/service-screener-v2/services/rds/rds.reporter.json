@@ -1,0 +1,1076 @@
+{
+  "MultiAZ": {
+      "category": "R",
+      "^description": "High Availability: You have {$COUNT} production instances/clusters which are not configured to be tolerant to issues in an Availability Zone. Reconfigure production RDS instances to Multi-AZ. For Aurora clusters, have at least two instances (one each in a different availability zone). Enabling multi-AZ for RDS cluster and adding another instance will lead to additional cost. Converting a single-AZ instance to multi-AZ instances will avoid downtime but you can experience performance impact. You should perform this operation during off-peak hours. You can also create a read replica in a different AZ and then perform a failover.",
+      "downtime": 0,
+      "slowness": 1,
+      "additionalCost": 1,
+      "needFullTest": 0,
+      "criticality": "H",
+      "shortDesc": "Enable MultiAZ",
+      "ref": [
+          "[What Is MultiAZ]<https://aws.amazon.com/rds/features/multi-az/>",
+          "[Guide]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html>"
+      ]
+  },
+  "EngineVersionMajor": {
+      "category": "SP",
+      "^description": "Version Currency: {$COUNT} instances/clusters are on an older version. Upgrade to the latest version to get access to new features. You should perform proper testing before upgrading the production environment. There are different options to perform major version upgrades and your choices will depend on architecture, schema and workload. If you choose to upgrade by setting up replication, you may incur additional cost for replication (e.g. when using DMS) and for additional instances.",
+      "downtime": -1,
+      "slowness": -1,
+      "additionalCost": 0,
+      "needFullTest": 1,
+      "criticality": "H",
+      "shortDesc": "Major version available",
+      "ref": [
+        "[Guide]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html>"
+      ]
+  },
+  "EngineVersionMinor": {
+      "category": "SP",
+      "^description": "Patch Currency: {$COUNT} of your instances/cluster are on an older patch level. This exposes your instances/cluster to be exploited for known vulnerabilities. Apply the latest patch to avoid running into known issues or being exploited for known vulnerabilities. Perform proper testing before applying a patch in production environment.",
+      "downtime": 1,
+      "slowness": -1,
+      "additionalCost": 0,
+      "needFullTest": 1,
+      "criticality": "M",
+      "shortDesc": "Minor version available",
+      "ref": [
+        "[Guide]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html>"
+      ]
+  },
+  "Backup":{
+      "category": "R",
+      "^description": "Backup Retention: You have {$COUNT} production instances which have a backup retention period of 0, which means automated backups are disabled. Set your backup retention to at least 7 days for your production instance/cluster. Please note that longer backup retention will lead to additional cost.",
+      "downtime": 1,
+      "slowness": 0,
+      "additionalCost": 1,
+      "needFullTest": 0,
+      "criticality": "H",
+      "shortDesc": "Enable backup >= 7 days",
+      "ref": [
+        "[Free backup storage up to allocated]<https://aws.amazon.com/rds/faqs/#Automatic_Backups_and_Database_Snapshots>",
+        "[Guide]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html>"
+      ]
+  },
+  "BackupTooLow":{
+    "category": "R",
+    "^description": "Backup Retention: You have {$COUNT} production instances which have sub-optimal backup retention period. Set your backup retention to at least 7 days for your production instance/cluster. Please note that longer backup retention will lead to additional cost.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Enable backup >= 7 days",
+    "ref": [
+      "[Free backup storage up to allocated]<https://aws.amazon.com/rds/faqs/#Automatic_Backups_and_Database_Snapshots>",
+      "[Guide]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html>"
+    ]
+  },
+  "AutoMinorVersionUpgrade":{
+    "category": "O",
+    "^description": "[Maintenance] You have {$COUNT} instances/clusters which don't have auto minor version upgrade enabled. Consider enabling auto minor version upgrade for your databases.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "I",
+    "shortDesc": "Enable auto minor version upgrade",
+    "ref": ["[DB Version Upgrade]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html>"]
+  },
+  "StorageEncrypted":{
+    "category": "S",
+    "^description": "Storage Encryption: You have {$COUNT} instances/clusters which don't have storage encryption enabled. Enable storage level encryption for your databases.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Enable RDS Storage Encryption",
+    "ref": [
+      "[RDS Storage Encryption]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html>",
+      "[Importance of Encryption]<https://aws.amazon.com/blogs/security/importance-of-encryption-and-how-aws-can-help>"
+    ]
+  },
+  "PerformanceInsightsEnabled":{
+    "category": "P",
+    "^description": "Workload Monitoring: {$COUNT} instances in your fleet don't have Performance Insights enabled. Enable Performance Insights (PI) for all your instances. It is free for 7 days retention period and it is extremely helpful in debugging performance bottlenecks. Enabling long term retention is highly recommended for mission critical databases. Long term retention will lead to additional cost. Enabling all features of Performance Insights may cause a restart of the instance (behavior differs from engine to engine). Test it in non production environment before making changes in production.",
+    "downtime": -1,
+    "slowness": -1,
+    "additionalCost": -1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Enable Performance Insights",
+    "ref": [
+      "[Enable PI]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.Enabling.html>",
+      "[PI features]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.Overview.html>",
+      "[Reinvent Video]<https://www.youtube.com/watch?v=RyX9tPxffmw&ab_channel=AmazonWebServices>"
+    ]
+  },
+  "DefaultParams":{
+    "category": "O",
+    "^description": "You are using default DB Parameter Group for {$COUNT} instances. Even if you want to change a dynamic parameter setting, you will first need to do some additional steps such as changing the DB Parameter Group which will require restart of DB instance for it to take effect. We recommend that you use a separate DB Parameter Group for every RDS instance. You can use same DB Parameter Group for all members of the same Aurora Cluster.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Do not use default params",
+    "ref": ["[Working with Paramater Groups]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html>"]
+  },
+  "EnhancedMonitor":{
+    "category": "O",
+    "^description": "OS Monitoring: {$COUNT} of your instances have sub-optimal settings for Enhanced Monitoring. Enable Enhanced Monitoring for all your production instances with at least 30 seconds monitoring interval. Enhanced Monitoring uses an agent to collect information that is stored in CloudWatch.  Lower granularity allows more details to be collected, which can be helpful while debugging performance issues. Enabling Enhanced Monitoring will lead to additional cost for CloudWatch. More granularity causes more details to be logged to CloudWatch.",
+    "downtime": 0,
+    "slowness": -1,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Enable Enhanced Monitoring",
+    "ref": ["[Enable Enhanced Monitoring]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html>"]
+  },
+  "DeleteProtection":{
+      "category": "O",
+      "^description": "Deletion Protection is not enabled for {$COUNT} instances. This can lead to accidental deletion of Production database. Enable deletion protection to ensure that production databases are not accidentally deleted.",
+      "downtime": 0,
+      "slowness": 0,
+      "additionalCost": 0,
+      "needFullTest": 0,
+      "criticality": "H",
+      "shortDesc": "Enable Delete Protection",
+      "ref": ["[Enable Delete Protection]<https://docs.fugue.co/FG_R00280.html>"]
+  },
+  "DeleteProtectionCluster":{
+      "category": "O",
+      "^description": "Deletion Protection is not enabled for {$COUNT} Aurora clusters. This can lead to accidental deletion of Production database. Enable deletion protection to ensure that production databases are not accidentally deleted.",
+      "downtime": 0,
+      "slowness": 0,
+      "additionalCost": 0,
+      "needFullTest": 0,
+      "criticality": "H",
+      "shortDesc": "Enable Delete Protection",
+      "ref": ["[Enable Delete Protection]<https://docs.fugue.co/FG_R00280.html>"]
+  },
+  "PubliclyAccessible":{
+    "category": "S",
+    "^description": "Secure Access: {$COUNT} of your instances are publicly accessible. Publicly accessible instances are at risk for being exploited for day 0 or other known vulnerabilities. Disable publicly accessible flag for all your instances. Before making this change, ensure that you have made changes to application, AWS networking configurations (security groups, network access control list etc) and other tools connecting to DB.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Disable publically accesible flag.",
+    "ref": ["[How to connect to private RDS]<https://repost.aws/knowledge-center/rds-connectivity-instance-subnet-vpc>"]
+  },
+  "Subnets3Az":{
+    "category": "R",
+    "^description": "Availability Zone (AZ) Fault Tolerance: You have {$COUNT} instances/clusters which are not following this best practice. Make sure that the DB Subnet Group used for all your RDS instances and Aurora clusters has a subnet in three or more AZs. In case of an issue in an AZ, you can restore/failover to another AZ.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Use three AZs for DB SubnetGroup",
+    "ref": ["[Setup Subnets Group in RDS]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html>"]
+  },
+  "LatestInstanceGeneration":{
+    "category": "PC",
+    "^description": "Latest Instance Class: You have {$COUNT} instances still using older instance types. If there are no Reserved Instances tied to older generation of instance class, then you should consider upgrading your instance type to use latest instance class families - r5, m5, t3, m6g, and r6g. Latest instance classes (for the same size of instance) often offer better performance either at same or lesser cost. Changing the instance class will cause some downtime.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Upgrade to Latest Generation",
+    "ref": ["[Upgrade RDS instance]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html>"]
+  },
+  "BurstableInstance":{
+    "category": "P",
+    "^description": "[Performance]: You have {$COUNT} instances still using T family, burstable instance types. T family instances are great for non-critical, low usage workloads which do not require a high level of sustained CPU performance. For production workloads, it is recommended to use non-burstable instance type for optimal performance",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Change to non-burstable instance type",
+    "ref": [
+		"[BurstableInstance]<https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html>"
+		]
+  },
+  "FreeStorage20pct":{
+    "category": "R",
+    "^description": "[Reliability]: You have {$COUNT} instances has remaining free storage less than 20%",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Increase storage",
+    "ref": [
+		"[Modify RDS Storage]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html>"
+		]
+  },
+  "DefaultMasterAdmin":{
+    "category": "S",
+    "^description": "[Login Info] {$COUNT} of your RDS are using default master admin. To make change, you first need to create a snapshot and create a new database instance from the snapshot with new --master-username parameter",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Rename Admin",
+    "ref": [
+      "[RDS Master Accounts]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.MasterAccounts.html>"
+    ]
+  },
+  "SnapshotRDSIsPublic":{
+    "category": "S",
+    "^description": "[RDS Snapshot] {$COUNT} of your RDS is having at least 1 public snapshot.If you share an unencrypted manual snapshot as public, this makes the snapshot available to all AWS accounts. This may result in unintended data exposure of your RDS instance.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Snapshot should be private",
+    "ref": [
+      "[RDS Master Accounts]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.MasterAccounts.html>"
+    ]
+  },
+  "MYSQL__parammAutoCommit":{
+    "category": "R",
+    "^description": "[MySQL Parameter] {$COUNT} of your RDS MySQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with autocommit disabled. When autocommit is enabled, MySQL automatically commits transactions. Switching off may have an impact on how your applications transactions are committed and can cause functional isssue. You should do proper functional testing when changing this parameter. For Aurora MySQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set value to ON",
+    "ref": [
+      "[RDS MySQL Autocommit]<https://docs.aws.amazon.com/whitepapers/latest/amazon-aurora-mysql-db-admin-handbook/transaction-management-and-autocommit.html>"
+    ]
+  },
+  "MYSQL__parammInnodbStatsPersistent":{
+    "category": "P",
+    "^description": "[MySQL Parameter] {$COUNT} of your RDS MySQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with innodb_stats_persistent switched off. Setting it ON (default) ensures that optimizer statistics that are persisted across instance restart. This can be helpful in debugging performance issues. For Aurora MySQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set value to ON",
+    "ref": [
+      "[Aurora_Lab_Mode]<https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.LabMode.html>"
+    ]
+  },
+  "MYSQLA__paramAuroraLabMode":{
+    "category": "P",
+    "^description": "[MySQL Aurora Parameter] {$COUNT} of your production RDS MySQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with Aurora Lab Mode (aurora_lab_mode) switched on. aurora_lab_mode is by default off and can be enabled to enable Aurora features that are available in the current Aurora database version, but are not enabled by default. While Aurora lab mode features are not recommended for use in production DB clusters, you can use Aurora lab mode to enable these features for DB clusters in your development and test environments. This parameter can be set at both instance level and cluster level. You should ideally keep it off at instance as well as at cluster level.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": -1,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set value to 1",
+    "ref": [
+      "[Aurora_Lab_Mode]<https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.LabMode.html>"
+    ]
+  },
+  "MYSQLA__paramQueryCacheType":{
+    "category": "P",
+    "^description": "[MySQL Aurora Parameter] {$COUNT} of your RDS Aurora MySQL instances and clusters have Query Cache disabled. Disabling query caching in Aurora might affect database performance if your workload reuses queries, like repeatable SQL statements. However, it's fine to disable the query cache if you know that your workload doesn't benefit from it. You can see query cache use in the output of a SHOW STATUS command under the 'Qcache' section. This parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": -0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set value to 1",
+    "ref": [
+      "[Aurora MySQL Parameter Tuning]<https://aws.amazon.com/blogs/database/best-practices-for-amazon-aurora-mysql-database-configuration/>"
+    ]
+  },
+  "MYSQL__paramQueryCacheType":{
+    "category": "P",
+    "^description": "[MySQL Parameter] {$COUNT} of your RDS MySQL instance has Query Cache enabled. Enabling query cache can have a negative impact on the performance of MySQL instace. We recommend that you switch it off. You should throughly test the impact of this parameter on your workload before changing it in production.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set value to 0",
+    "ref": [
+      "[RDS MySQL Parameters Tuning]<https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-1-parameters-related-to-performance/>"
+    ]
+  },
+  "MYSQL__param_syncBinLog":{
+    "category": "R",
+    "^description": "[Transaction Durability] {$COUNT} of your RDS MySQL RDS instances are running with <b>sync_binlog</b> set to less durable setting. This parameter ensures that transaction commits are made durable to binlog synchronously before commit is confirmed. Switching off this parameter can offer performance gain but increases risk of data loss. You should test the impact of this parameter on your performance and RPO before making changes.",
+    "downtime": 1,
+    "slowness": 1,
+    "additionalCost": -1,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Set value to 1",
+    "ref": [
+      "[What Is]<https://dev.mysql.com/doc/refman/5.7/en/replication-options-binary-log.html#sysvar_sync_binlog>"
+    ]
+  },
+  "MYSQL__param_innodbFlushTrxCommit":{
+    "category": "R",
+    "^description": "[Transaction Durability] {$COUNT} of your RDS MySQL instances,  and RDS Aurora clusters are running with <b>innodb_flush_log_at_trx_commit</b> set to less durable setting. This parameter ensures that MySQL writes transactions to redo log upon every commit. In case of Aurora this parameter ensures that every commit will wait for acknowledgement from a quorum of 4 out of 6 storage copies. Switching off this parameter can offer performance gain but increases risk of data loss. Switching off this parameter can offer performance gain but increases risk of data loss. You should test the impact of this parameter on your performance and RPO before making changes.",
+    "downtime": 1,
+    "slowness": 1,
+    "additionalCost": -1,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Set value to 1",
+    "ref": ["[MySQL Param Best Practices]<https://aws.amazon.com/blogs/database/best-practices-for-configuring-parameters-for-amazon-rds-for-mysql-part-1-parameters-related-to-performance>"]
+  },
+  "MYSQL__LogsErrorEnable":{
+    "category": "O",
+    "^description": "[Logging] {$COUNT} of your production RDS MySQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are <b>NOT</b> setup to log database error. This will create challenges on troubleshooting. With error logs in CloudWatch LogsGroup, you can setup alarms with CloudWatch Filter to notify the team proactively.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Enable Error Logs",
+    "ref": [
+      "[MySQL Logs]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.MySQL.LogFileSize.html>",
+      "[CloudWatch Filter Pattern]<https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html>"
+    ]  
+  },
+  "MYSQL__LogsGeneral":{
+    "category": "PC",
+    "^description": "[Logging] {$COUNT} of your production RDS MySQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are setup to log all statements or all queries. This will cause excessive amount of logging potentially leading to higher storage and IOPS utilization. Excessive logging can deprvie your application workload of IOPS. In case of Aurora, temporary file are created on temporary EBS volume, which has limited storage and IOPS capacity. Therefore in case of Aurora the risk is even higher. For Aurora MySQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Disable General Logs",
+    "ref": [
+      "[MySQL Logs]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.MySQL.LogFileSize.html>"
+    ]
+  },
+  "MYSQL__PerfSchema":{
+    "category": "OP",
+    "^description": "[Performance & Monitoring] {$COUNT} of your RDS MySQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with <b>performance_schema</b> disabled. Performance schema can be very helpful in troubleshooting performance issues and tracking bottlenecks. Performance Insights also relies on performance schema, but it is possible that when you enable performance insights by modifying the instance (after creating the instance), the parameter changes are not visible in the parameter group. For Aurora MySQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Enable Performance Insights or performance schema.",
+    "ref": [
+      "[MySQL PerfSchema]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.Enabling.html>"
+    ]
+  },
+  "PG__param_idleTransTimeout":{
+    "category": "P",
+    "^description": "[Session/Query Limits] {$COUNT} of your PostgreSQL instances/cluster don't have optimal value set for <b>idle_in_transaction_session_timeout</b>. You should set a non-zero value for this parameter to ensure that idle in transaction sessions are terminated. Long running idle sessions are usually because of application bugs or lack of proper connection/exception handling. Idle in transaction sessions can take up connection slot, which can potentially result in all connections being utilized. Long running transactions also have a negative impact on transaction id clean and dead row cleanup (handled by autovacuum) and can lead to massive bloats. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 0,
+    "slowness": -1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Set non-zero value",
+    "ref": [
+      "[What Is]<https://www.postgresql.org/docs/13/runtime-config-client.html#GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT>"
+    ]
+  },
+  "PG__param_statementTimeout":{
+    "category": "P",
+    "^description": "[Session/Query Limits] {$COUNT} of your PostgreSQL instances/cluster don't have optimal value set for <b>statement_timeout</b>. The engine level default for this parameter is 0, which means a statement can run for as long as they need to complete. Multiple long running queries can create resource constraint on the system. Long running statements also increase the risk of bloats. You should review a baseline for queries in your workload and set a non-zero value for statement_timeout. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 0,
+    "slowness": -1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set non-zero value",
+    "ref": [
+      "[What Is]<https://www.postgresql.org/docs/13/runtime-config-client.html#GUC-STATEMENT-TIMEOUT>"
+    ]
+  },
+  "PG__param_logTempFiles":{
+    "category": "O",
+    "^description": "[Logging] {$COUNT} of your production RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters don't have logging enabled for temporary files. You should set <b>log_temp_files</b> to a non-zero value to log queries taking extensive temporary space. Setting this parameter to a very large value is not very useful either as that may skip logging most of the queries using temporary space.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": -1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set non-zero value",
+    "ref": [
+      "[Postgres Param: log_temp_files]<https://postgresqlco.nf/doc/en/param/log_temp_files/>"
+    ]
+  },
+  "PG__param_tempFileLimit":{
+    "category": "P",
+    "^description": "[Session/Query Limits] {$COUNT} of your production RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are setup to allow queries to use unlimited temporary space. Temporary space is typically used when queries spill to disk for sorting operations e.g. when queries use hash join or have ORDER BY clause. If you do not limit amount of temporary space used by a session with <b>temp_file_limit</b>, a badly written query can consume all the disk space. In case of Aurora, temporary file are created on temporary EBS volume, which has limited storage and IOPS capacity. Therefore in case of Aurora the risk is even higher. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 0,
+    "slowness": -1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set non-zero value",
+    "ref": [
+      "[Postgres Param: log_temp_files]<https://postgresqlco.nf/doc/en/param/log_temp_files/>"
+    ]
+  },
+  "PG__param_rdsAutoVacuumLevel":{
+    "category": "O",
+    "^description": "[Loggings] {$COUNT} of your production RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters don't have autovacuum logging level set. By default autovacuum workers in RDS PostgreSQL and Amazon Aurora PostgreSQL will not generate any logs (even if log_autovacuum_min_duration is set). You should set <b>rds.force_autovacuum_logging_level</b> to 'warning' autovacuum logs to be captured in PostgreSQL logs.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": -1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set to 'warning'",
+    "ref": [
+      "[Postgres Param: Auto Vacuum]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.PostgreSQL.CommonDBATasks.Autovacuum.html>"
+    ]
+  },
+  "PG__param_autoVacDuration":{
+    "category": "O",
+    "^description": "[Loggings] {$COUNT} of your production RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters don't have autovacuum logging enabled. You should set <b>log_autovacuum_min_duration</b> to a non-zero value to log long running autovacuum tasks. Setting this parameter to a very large value is not much useful as that may skip logging all the autovacuum runs. You also need to set rds.force_autovacuum_logging_level to enable logging of autovacuum workers.",
+    "downtime": 1,
+    "slowness": -1,
+    "additionalCost": -1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set non-zero value",
+    "ref": [
+      "[Postgres Param: Autovacuum]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.PostgreSQL.CommonDBATasks.Autovacuum.html>"
+    ]
+  },
+  "PG__param_trackIoTime":{
+    "category": "PO",
+    "^description": "[Perf & Monitoring] {$COUNT} of your RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters in production and test environments are running with <b>track_io_timing</b> switched off. track_io_timing is useful for debugging performance issues and also helps understand time spent on I/O by queries reported in pg_stat_statement. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": 1,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set non-zero value",
+    "ref": [
+      "[Postgres Param: track_io_timing]<https://postgresqlco.nf/doc/en/param/track_io_timing/>"
+    ]
+  },
+  "PG__param_logStatement":{
+    "category": "P",
+    "^description": "[Logging] {$COUNT} of your production RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are setup <b>log_statement</b> to log all statements or all modification (DDL and DML). This will cause excessive amount of logging potentially leading to higher storage and IOPS utilization. Excessive logging can deprive your application workload of IOPS. In case of Aurora, temporary file are created on temporary EBS volume, which has limited storage and IOPS capacity. Therefore in case of Aurora the risk is even higher. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set value to: 'ddl' or 'none'",
+    "ref": [
+      "[Postgres Param: log_statement]<https://postgresqlco.nf/doc/en/param/log_statement/>"
+    ]
+  },
+  "PG__param_trackActivities":{
+    "category": "O",
+    "^description": "[Logging] {$COUNT} of your RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with track_activities switched off. track_activities is useful for debugging performance issues and also important for activity tracking which is used by Performance Insights. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set value to: 1",
+    "ref": [
+      "[Postgres Param: runtime-config]<https://www.postgresql.org/docs/current/runtime-config-statistics.html>"
+    ]
+  },
+  "PG__param_trackCounts":{
+    "category": "O",
+    "^description": "[Logging] {$COUNT} of your RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with track_counts switched off. track_counts is useful for debugging performance issues and also needed for autovacuum to work properly. For Aurora PostgreSQL clusters, this parameter can be changed in DB Parameter Group for instance or DB Cluster Parameter group attached to cluster level. If you have already set it at cluster level, it will be applicable to all instances in the cluster and this recommendation can be ignored for those instances.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Set value to: 1",
+    "ref": [
+      "[Postgres Param: runtime-config]<https://www.postgresql.org/docs/current/runtime-config-statistics.html>"
+    ]
+  },
+  "PG__param_synchronousCommit":{
+    "category": "P",
+    "^description": "[Logging] {$COUNT} of your RDS PostgreSQL resources including RDS instances, RDS Aurora instances, and RDS Aurora clusters are running with synchronous_commit switched off. This parameter ensures that PostgreSQL writes transactions to WAL upon every commit. In case of Aurora this parameter ensures that every commit will wait for acknowledgement from a quorum of 4 out of 6 storage copies. Switching off this parameter can offer performance gain but increases risk of data loss.",
+    "downtime": 0,
+    "slowness": 1,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Set value to: 1",
+    "ref": [
+      "[Postgres Param: synchrounous commit]<https://postgresqlco.nf/doc/en/param/synchronous_commit/>"
+    ]
+  },
+  "Aurora__ClusterSize":{
+    "category": "RP",
+    "^description": "[Aurora High Availability] You have {$COUNT} clusters which have less than 2 or more than 7 instances in the cluster. With out a read-replica, when your writer goes down, failover may take longer. For better availability you should place Aurora read replica in a different availability zone than the writer node. Adding too many read replica can put extra pressure on the writer node (to send changes to read-replicas). Make sure that you have at least a read replica (avoid more than 7) for all your production Aurora clusters.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Resize number of additional clusters",
+    "ref": [
+      "[Add Clusters]<https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-replicas-adding.html>",
+      "[Delete Clusters]<https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_DeleteCluster.html>"
+    ]
+  },
+  "MSSQL__EngineHasMultiAZSupport":{
+    "category": "RO",
+    "^description": "[MSSQL High Availability] You have {$COUNT} instance(s) which are using SQL Server Express Edition or SQL Server Web Edition. These editions of SQL Server don't offer Multi-AZ support. For production workloads you should consider using SQL Server Enterprise Edition or SQL Server Standard Edition with multi-AZ support.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Use SQL Server Standard / Enterprise Edition",
+    "ref": [
+      "[High Availability for MSSQL]<https://docs.aws.amazon.com/prescriptive-guidance/latest/migration-sql-server/rds-sql.html>"
+    ]
+  },
+  "MSSQL__EEUnderSize": {
+    "category": "C",
+    "^description": "[MSSQL Edition] You have {$COUNT} instances of the Enterprise Edition running, but using less than 48 vCPU or 128 GB of RAM. To save money, consider running the Standard Edition after reviewing application usage.",
+    "downtime": 1,
+    "slowness": 1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Review SQL Edition",
+    "ref": [
+      "[RDS SQLServer EE]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.FeatureSupport.Limits>",
+	  "[SQLServer Edition Comparison 2019]<https://learn.microsoft.com/en-us/sql/sql-server/editions-and-components-of-sql-server-2019?view=sql-server-ver16#Cross-BoxScaleLimits>"
+    ]
+  },
+  "MSSQL__EditionOversize": {
+    "category": "C",
+    "^description": "[MSSQL Edition] You have {$COUNT} instances of the Standard Edition running, but using more than 48 vCPU or 128 GB of RAM. To avoid paying for unused resources, consider downsizing your RDS instances.",
+    "downtime": 1,
+    "slowness": 1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "H",
+    "shortDesc": "Review SQL Edition",
+    "ref": [
+      "[RDS SQLServer EE]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.FeatureSupport.Limits>",
+	  "[SQLServer Edition Comparison 2019]<https://learn.microsoft.com/en-us/sql/sql-server/editions-and-components-of-sql-server-2019?view=sql-server-ver16#Cross-BoxScaleLimits>"
+    ]
+  },
+  "MSSQL__EE2017": {
+    "category": "C",
+    "^description": "[MSSQL Edition] You have {$COUNT} instances of SQL Server 2017 Enterprise Edition running. Most features that were once exclusive to the Enterprise Edition are now available in the Standard Edition. To save money, consider changing the edition of your SQL Server instances to Standard.",
+    "downtime": 1,
+    "slowness": 1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Review SQL Edition",
+    "ref": [
+	  "[SQLServer 2019 Features Comparison]<https://learn.microsoft.com/en-us/sql/sql-server/editions-and-components-of-sql-server-2019?view=sql-server-ver15&preserve-view=true>",
+	  "[SQLServer 2017 Features Comparison]<https://learn.microsoft.com/en-us/sql/sql-server/editions-and-components-of-sql-server-2017?view=sql-server-2017&preserve-view=true>"
+    ]
+  },
+  "MSSQLorPG__TransportEncrpytionDisabled":{
+    "category": "S",
+    "^description": "[MSSQL Transport Encryption] You have {$COUNT} instance(s) does not enable transport encryption. You can use Secure Sockets Layer (SSL) to encrypt connections between your client applications and your Amazon RDS DB instances running Microsoft SQL Server. SSL support is available in all AWS regions for all supported SQL Server editions.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": -1,
+    "criticality": "M",
+    "shortDesc": "Using SSL",
+    "ref": [
+      "[RDS SQLServer SSL]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/SQLServer.Concepts.General.SSL.Using.html>"
+    ]
+  },
+  "MSSQL__ParamMaxMemoryTooLow":{
+    "category": "P",
+    "^description": "[MSSQL Parameter] You have {$COUNT} MSSQL instances with configured maximum server memory values lower than the recommended value.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "I",
+    "shortDesc": "Review Memory Configuration",
+    "ref": [
+      "[Max Memory Guide (AWS)]<https://docs.aws.amazon.com/prescriptive-guidance/latest/sql-server-ec2-best-practices/max-server-memory.html>",
+	  "[Max Memory Guide (MSFT)]<https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/server-memory-server-configuration-options?view=sql-server-ver16#max_server_memory>"
+    ]
+  },
+  "MSSQL__ParamMaxMemoryTooHigh":{
+    "category": "P",
+    "^description": "[MSSQL Parameter] You have {$COUNT} MSSQL instances with configured maximum server memory values higher than the recommended value.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "I",
+    "shortDesc": "Review Memory Configuration",
+    "ref": [
+      "[Max Memory Guide (AWS)]<https://docs.aws.amazon.com/prescriptive-guidance/latest/sql-server-ec2-best-practices/max-server-memory.html>",
+	  "[Max Memory Guide (MSFT)]<https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/server-memory-server-configuration-options?view=sql-server-ver16#max_server_memory>"
+    ]
+  },
+  "MSSQL__ParamCostThresholdTooLow":{
+    "category": "P",
+    "^description": "[MSSQL Parameter] You have {$COUNT} MSSQL instances with a configured cost threshold for parallelism lower than the default value of 5. The recommended value to start with is 50.",
+    "downtime": 0,
+    "slowness": 1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "I",
+    "shortDesc": "Review Cost Threshold For Parallelism setting",
+    "ref": [
+      "[Cost Threshold for Parallelism Guide (AWS)]<https://docs.aws.amazon.com/prescriptive-guidance/latest/sql-server-ec2-best-practices/parallelism.html>",
+	  "[Max Memory Guide (MSFT)]<https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-cost-threshold-for-parallelism-server-configuration-option?view=sql-server-ver16#recommendations>"
+    ]
+  },
+  "MSSQL__ParamMaxDegreeParallism":{
+    "category": "P",
+    "^description": "[MSSQL Parameter] You have {$COUNT} MSSQL instances using the default value for the maximum degree of parallelism. Review the guide for tuning it for optimal performance.",
+    "downtime": 0,
+    "slowness": 1,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "I",
+    "shortDesc": "Review Cost Threshold For Parallelism setting",
+    "ref": [
+      "[MAXDOP Guide (AWS)]<https://docs.aws.amazon.com/prescriptive-guidance/latest/sql-server-ec2-best-practices/maxdop.html>",
+	  "[MAXDOP Guide (MSFT)]<https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-degree-of-parallelism-server-configuration-option?view=sql-server-ver16#considerations>"
+    ]
+  },
+  "MSSQL_EditionIsWebOrExpress":{
+    "category": "P",
+    "^description": "[MSSQL Edition] {$COUNT} of your SQL Server instances which are identified as PROD environment are using SQL Server Express Edition or SQL Server Web Edition. These editions of SQL Server don't offer Multi-AZ support. For production workload you should consider using SQL Server Enterprise Edition or SQL Server Standard Edition with multi-AZ support.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Avoid Express or Web edition for Prod",
+    "ref": [
+      "[SQL Server Edition Comparison, E2022 (MSFT)]<https://learn.microsoft.com/en-us/sql/sql-server/editions-and-components-of-sql-server-2022?view=sql-server-ver16>"
+    ]
+  },
+  "MonitoringIntervalTooLow":{
+    "category": "O",
+    "^description": "[OS Monitoring] {$COUNT} of your instances have sub-optimal settings for Enhanced Monitoring. Enable Enhanced Monitoring for all your production instances with at least 30 seconds monitoring interval. Enhanced Monitoring uses an agent to collect information that is stored in CloudWatch.  Lower granularity allows more details to be collected, which can be helpful while debugging performance issues. Enabling Enhanced Monitoring will lead to additional cost for CloudWatch. More granularity causes more details to be logged to CloudWatch.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "L",
+    "shortDesc": "Setup with sub-optimal setting for Enhanced Monitoring",
+    "ref": [
+      "[RDS Enhanced Monitoring]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.overview.html>"
+    ]
+  },
+  "CACertExpiringIn365days": {
+    "category": "O",
+    "^description": "[RDS Certificate] You have {$COUNT} RDS instances are using nearly expired CA Certificate. If you use or plan to use Secure Sockets Layer (SSL) or Transport Layer Security (TLS) with certificate verification to connect to your RDS DB instances, you should consider using one of the new CA certificates. If you currently do not use SSL/TLS with certificate verification, you might still have an expired CA certificate and must update them to a new CA certificate if you plan to use SSL/TLS with certificate verification to connect to your RDS databases.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "H",
+    "shortDesc": "Rotate CA",
+    "ref": [
+      "[Rotate RDS SSL/TLS Certificate]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html>"
+    ]
+  },
+  "DBInstanceWithoutTags": {
+    "category": "C",
+    "^description": "[RDS] You can use Amazon RDS tags to add metadata to your Amazon RDS resources. You can use the tags to add your own notations about database instances, snapshots, Aurora clusters, and so on. Doing so can help you to document your Amazon RDS resources. You can also use the tags with automated maintenance procedures.<br><br>In particular, you can use these tags with IAM policies. You can use them to manage access to RDS resources and to control what actions can be applied to the RDS resources. You can also use these tags to track costs by grouping expenses for similarly tagged resources.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Tags the resources",
+    "ref": [
+      "[RDS Tags]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html>"
+    ]
+  },
+  "DBwithoutSecretManager": {
+    "category": "S",
+    "^description": "[Secrets Manager] Secrets Manager helps you improve the security posture of your organization. Secrets include database credentials, passwords, and third-party API keys. You can use Secrets Manager to store secrets centrally, encrypt secrets automatically, control access to secrets, and rotate secrets safely and automatically.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Secrets Manager Usage",
+    "ref": [
+      "[About Secrets Manager]<https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html>"
+    ]
+  },
+  "DBwithSomeSecretsManagerOnly": {
+    "category": "S",
+    "^description": "[Secrets Manager] Secrets Manager helps you improve the security posture of your organization. Secrets include database credentials, passwords, and third-party API keys. You can use Secrets Manager to store secrets centrally, encrypt secrets automatically, control access to secrets, and rotate secrets safely and automatically.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Review Secrets Manager Usage",
+    "ref": [
+      "[About Secrets Manager]<https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html>"
+    ]
+  },
+  "Secret__NoRotation": {
+    "category": "S",
+    "^description": "[Secrets Manager] Rotation is the process of periodically updating a secret. When you rotate a secret, you update the credentials in both the secret and the database or service. In Secrets Manager, you can set up automatic rotation for your secrets.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Setup auto-rotation",
+    "ref": [
+      "[Managed Secret Rotation]<https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html>"
+    ]
+  },
+  "Secret__NotUsed7days": {
+    "category": "O",
+    "^description": "[Secrets Manager] You have {$COUNT} secrets not in used in the past 7 days. Please review and removed it if it not in used to ease future operation",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": -1,
+    "criticality": "L",
+    "shortDesc": "Review & Remove unused secrets",
+    "ref": [
+      "[Delete a secet]<https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_delete-secret.html>"
+    ]
+  },
+  "SecurityGroupIPRangeNotPrivateCidr": {
+    "category": "S",
+    "^description": "[RDS Security Group] You have {$COUNT} security group(s) inbound rules setting that allows public ip ranges. The recommended configuration for a security group rule is to allow access only from specific Amazon Elastic Compute Cloud (Amazon EC2) security groups or from a specific IP address to lower the risk posture.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": -1,
+    "criticality": "M",
+    "shortDesc": "Restrict access to authorized IP addresses or IP ranges.",
+    "ref": [
+      "[RDS Infrastructure Security]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/infrastructure-security.html>"
+    ]
+  },
+  "SecurityGroupDefault": {
+    "category": "S",
+    "^description": "[RDS Security Group] AWS does not recommend using the default security group. Because the default security group cannot be deleted, you should change the default security group rules setting to restrict inbound and outbound traffic. This prevents unintended traffic if the default security group is accidentally configured for resources such as EC2 instances.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": -1,
+    "criticality": "M",
+    "shortDesc": "Create custom Security Group",
+    "ref": [
+      "[Default Security Group]<https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html#DefaultSecurityGroup>"
+    ]
+  },
+  "FreeMemoryLessThan10pct": {
+    "category": "CP",
+    "^description": "[RDS Rightsizing] You have {$COUNT} instances with less than 10% freeable memory in the last 24 hours. Review whether you need more memory and increase the instance size accordingly.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 1,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Freeable Memory Less than 10%",
+    "ref": [
+      "[Rightsizing Guide]<https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-right-sizing/tips-for-right-sizing-your-workloads.html>"
+    ]
+  },
+  "FreeMemoryDropMT50pctIn24hours":{
+    "category": "CP",
+    "^description": "[RDS Rightsizing]You have {$COUNT} instances with a freeable memory drop of more than 50% in the last 24 hours. Review the drop and ensure that no unknown influx of queries or operations occurred.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "H",
+    "shortDesc": "Freeable Memory Drop > 50%",
+    "ref": [
+      "[Rightsizing Guide]<https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-right-sizing/tips-for-right-sizing-your-workloads.html>"
+    ]
+  },
+  "RightSizingMemoryMonthMinMT60pct":{
+    "category": "CP",
+    "^description": "[RDS Rightsizing] You have {$COUNT} instances with more than 60% freeable memory in the past 30 days. Review whether you can choose instances with lower memory.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Freeable Memory > 60% (months)",
+    "ref": [
+      "[Rightsizing Guide]<https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-right-sizing/tips-for-right-sizing-your-workloads.html>"
+    ]
+  },
+  "RightSizingCpuMonthMaxLT50pct":{
+    "category": "CP",
+    "^description": "[RDS Rightsizing] You have {$COUNT} instances with a maximum CPU utilization of less than 50% in the past 30 days. Review whether you can choose instances with fewer vCPUs.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "H",
+    "shortDesc": "Max CPU < 50% (months)",
+    "ref": [
+      "[Rightsizing Guide]<https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-right-sizing/tips-for-right-sizing-your-workloads.html>"
+    ]
+  },
+  "RightSizingCpuLowUsageDetected":{
+    "category": "CP",
+    "^description": "[RDS Rightsizing] You have {$COUNT} instances with more than 25 days of low minimum CPU utilization (less than 3%) and more than 20 days of low average CPU utilization (less than 30%) in the past 30 days. Review whether you can choose instances with fewer vCPUs.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Low Minumum & Average CPUUtilization",
+    "ref": [
+      "[Rightsizing Guide]<https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-right-sizing/tips-for-right-sizing-your-workloads.html>"
+    ]
+  },
+  "RightSizingCpuLowUsageDetectedWithWeeklySpike":{
+    "category": "CP",
+    "^description": "[RDS Rightsizing] You have {$COUNT} instances that have a weekly spike pattern, while normal days have consistently low CPU utilization. Consider rearchitecting your workload according to the maximum CPU utilization.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Weekly CPU Usage Spike detected",
+    "ref": [
+      "[Rightsizing Guide]<https://docs.aws.amazon.com/whitepapers/latest/cost-optimization-right-sizing/tips-for-right-sizing-your-workloads.html>"
+    ]
+  },
+  "AuroraStorageTypeToUseIOOpt":{
+    "category": "C",
+    "^description": "[Aurora Rightsizing] You have {$COUNT} Aurora Cluster(s) are operating in Aurora Standard which you likely able to enjoy further cost-saving by changing the storage type to I/O-Optimized. Scroll down to the cluster detail session to look into the IO/storage ratio. If the ratio is more than 0.7, using Aurora I/O-Optimized is definitely provide better cost-saving. For higher accuracy, please review cost breakdown and ensure Aurora IO cost is 25% more than overall Aurora Cluster cost",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Consider using I/O-Optimized",
+    "ref": [
+      "[Choosing Aurora StorageType]<https://youtu.be/OlFeaVd6Ll4?si=r_2V66HqA83tJOkg&t=351>",
+      "[About Aurora StorageType]<https://aws.amazon.com/blogs/aws/new-amazon-aurora-i-o-optimized-cluster-configuration-with-up-to-40-cost-savings-for-i-o-intensive-applications>"
+    ]
+  },
+  "AuroraStorageTypeToUseStnd":{
+    "category": "C",
+    "^description": "[Aurora Rightsizing] You have {$COUNT} Aurora Cluster(s) are operating in Aurora I/O-Optimized which you likely able to enjoy further cost-saving by changing the storage type to Aurora Standard. Scroll down to the cluster detail session to look into the IO/storage ratio. If the ratio is less than 0.7, using Aurora Standard is definitely provide better cost-saving. For higher accuracy, please review cost breakdown and ensure Aurora IO cost is NOT 25% more than overall Aurora Cluster cost",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Consider using Aurora Standard",
+    "ref": [
+      "[Choosing Aurora StorageType]<https://youtu.be/OlFeaVd6Ll4?si=r_2V66HqA83tJOkg&t=351>",
+      "[About Aurora StorageType]<https://aws.amazon.com/blogs/aws/new-amazon-aurora-i-o-optimized-cluster-configuration-with-up-to-40-cost-savings-for-i-o-intensive-applications>"
+    ]
+  },
+  "AuroraStorageTypeOK":{
+    "category": "C",
+    "^description": "[Aurora Rightsizing] You have {$COUNT} Aurora Cluster(s) are operating in cost-efficient storageType setting in the cluster",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "I",
+    "shortDesc": "(Informational) Cluster IO/Storage Ratio",
+    "ref": [
+      "[Choosing Aurora StorageType]<https://youtu.be/OlFeaVd6Ll4?si=r_2V66HqA83tJOkg&t=351>",
+      "[About Aurora StorageType]<https://aws.amazon.com/blogs/aws/new-amazon-aurora-i-o-optimized-cluster-configuration-with-up-to-40-cost-savings-for-i-o-intensive-applications>"
+    ]
+  },
+  "RdsIsIdle7days":{
+    "category": "C",
+    "^description": "[Cost Optimization] You have {$COUNT} RDS instance(s) have not had a connection for a prolonged period of time (more than 7 days), you can delete the instance to reduce costs. If persistent storage is needed for data on the instance, you can use lower-cost options such as taking and retaining a DB snapshot. Manually created DB snapshots are retained until you delete them.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "RDS is idle",
+    "ref": [
+      "[Idle DB Instances]<https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-rds-idle-dbs-instances>",
+      "[Taking RDS Snapshot Manually]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html>"
+    ]
+  },
+  "PG__param_autovacuum": {
+    "category": "P",
+    "^description": "[Performance] You have {$COUNT} RDS Postgresql instance(s) do not have autovacuum parameter turned on. Turning autovacuum off increases the table and index bloat and impacts the performance. AWS recommend that you turn on autovacuum in the DB parameter groups",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "RDS is idle",
+    "ref": [
+      "[Impact on Turning off Autovacuum]<https://docs.aws.amazon.com/awssupport/latest/user/performance-checks.html#rds-autovacuum-off>",
+      "[Autovacuum Best Practices]<https://aws.amazon.com/blogs/database/understanding-autovacuum-in-amazon-rds-for-postgresql-environments>"
+    ]
+  },
+  "AuroraStorage64TBLimit": {
+    "category": "P",
+    "^description": "[Performance] You have {$COUNT} DB clusters support volumes up to 64 TiB. The latest engine versions support volumes up to 128 TiB. AWS recommend that you upgrade the engine version of your DB cluster to latest versions to support volumes up to 128 TiB.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Aurora DB instances supports only up to 64 TiB",
+    "ref": [
+      "[Aurora DB Clusters 64TiB Volume]<https://docs.aws.amazon.com/awssupport/latest/user/performance-checks.html#rds-db-clusters-64-tib-volume>",
+      "[Aurora DB Clusters size limits]<https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_Limits.html#RDS_Limits.FileSize.Aurora>"
+    ]
+  },
+  "PG__param_enable_indexonlyscan": {
+    "category": "P",
+    "^description": "[Performance] You have {$COUNT} RDS Postgresql instance(s) cannot use the index-only scan plan when it is turned off. When you turn off enable_indexonlyscan parameter, it prevents the query planner from selecting an optimal execution plan. The query planner uses a different plan type, such as index scan which can increase the query cost and execution time. The index only scan plan type retrieves the data without accessing the table data.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Update enable_indexonlyscan value to 1",
+    "ref": [
+      "[PostgreSQL Documentation on IndexOnlyScan]<https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-ENABLE-INDEXONLYSCAN>",
+      "[AWS view on enable_indexonlyscan]<https://docs.aws.amazon.com/awssupport/latest/user/performance-checks.html#rds-enable-indexonlyscan-parameter-off>"
+    ]
+  },
+  "PG__param_enable_indexscan": {
+    "category": "P",
+    "^description": "[Performance] You have {$COUNT} RDS Postgresql instance(s) query planner or optimizer cant use the index scan plan type when it is turned off. When you turn off enable_indexscan parameter, it prevents the query planner from selecting an optimal execution plan. The query planner uses a different plan type, such as index scan which can increase the query cost and execution time.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Update enable_indexonlyscan value to 1",
+    "ref": [
+      "[PostgreSQL Documentation on IndexScan]<https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-ENABLE-INDEXSCAN>",
+      "[AWS view on enable_indexscan]<https://docs.aws.amazon.com/awssupport/latest/user/performance-checks.html#rds-enable-indexscan-parameter-off>"
+    ]
+  },
+  "MYSQL__innodb_change_buffering":{
+    "category": "P",
+    "^description": "[Performance] You have {$COUNT} RDS MySQL instance(s) is having innodb_change_buffering enabled. We recommend that you set the value of innodb_change_buffering parameter to NONE. Change buffering allows a MySQL DB instance to defer a few writes, which are required to maintain secondary indexes. This feature was useful in environments with slow disks. The change buffering configuration improved the DB performance slightly but caused a delay in crash recovery and long shutdown times during upgrade.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Set innodb_change_buffering paramater value to NONE",
+    "ref": [
+      "[AWS view on innodb_change_buffering]<https://docs.aws.amazon.com/awssupport/latest/user/performance-checks.html#rds-innodb-parameter-less-than-optimal>"
+    ]
+  },
+  "MYSQL__innodb_open_files":{
+    "category": "P",
+    "^description": "[Performance] You have {$COUNT} RDS MySQL instance(s) is having innodb_open_files parameter is set to less than 65. The innodb_open_files parameter controls the number of files InnoDB can open at one time. InnoDB opens all of the log and system tablespace files when mysqld is running. Your DB instance has a low value for the maximum number of files InnoDB can open at one time. We recommend that you set the innodb_open_files parameter to a minimum value of 65.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Set the innodb_open_files parameter to a minimum value of 65",
+    "ref": [
+      "[Mysql Doc on innodb_open_files]<https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_open_files>",
+      "[AWS view on innodb_open_files]<https://docs.aws.amazon.com/awssupport/latest/user/performance-checks.html#rds-innodb-open-files-parameter-low>"
+    ]
+  },
+  "ManualSnapshotTooOld":{
+    "category": "C",
+    "^description": "[Cost Optimisation] You have {$COUNT} RDS/Aurora MANUAL Snapshot instance(s) is having age of more than 180 days. Review if this snapshot is still required. Considering export and backup data into S3 Glacier for long term archival for cost saving purposes.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Check if old RDS snapshot(s) is required/relevant",
+    "ref": [
+      "[RDS - Delete Snapshot]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteSnapshot.html>",
+      "[RDS Snapshot retention cost]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.RetentionCosts>"
+    ]
+  },
+  "ManualSnapshotTooMany":{
+    "category": "C",
+    "^description": "[Cost Optimisation] You have {$COUNT} RDS/Aurora MANUAL Snapshot instance(s) is having more than 5 manual snapshot. Review if this snapshot is still required. Considering export and backup data into S3 Glacier for long term archival for cost saving purposes.",
+    "downtime": 0,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "L",
+    "shortDesc": "Check if lists of RDS snapshots are required/relevant",
+    "ref": [
+      "[RDS - Delete Snapshot]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteSnapshot.html>",
+      "[RDS Snapshot retention cost]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.RetentionCosts>"
+    ]
+  },
+  "MoveToGraviton":{
+    "category": "CP",
+    "^description": "[Cost Optimisation] You have {$COUNT} RDS/Aurora is not running on graviton instance. Graviton2 provide up to 52% price/performance improvement for RDS open-source databases depending on database engine, version, and workload. Click on the references to learn more about Graviton2 benefits",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "M",
+    "shortDesc": "Move to graviton",
+    "ref": [
+      "[Key Consideration on RDS Graviton]<https://aws.amazon.com/blogs/database/key-considerations-in-moving-to-graviton2-for-amazon-rds-and-amazon-aurora-databases/>"
+    ]
+  },
+  "EnableStorageAutoscaling":{
+    "category": "R",
+    "^description": "[Reliablity] You have {$COUNT} RDS/Aurora does not have storage autoscaling enabled. With storage autoscaling enabled, when Amazon RDS detects that you are running out of free database space it automatically scales up your storage. Amazon RDS starts a storage modification for an autoscaling-enabled DB instance when these factors apply: (1) Free available space is less than or equal to 10 percent of the allocated storage. (2) The low-storage condition lasts at least five minutes. (3) At least six hours have passed since the last storage modification, or storage optimization has completed on the instance, whichever is longer.",
+    "downtime": -1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 0,
+    "criticality": "M",
+    "shortDesc": "Enable storage autoscaling",
+    "ref": [
+      "[Understand RDS Storage auto scaling]<https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html>"
+    ]
+  },
+  "ConsiderOpenSource":{
+    "category": "T",
+    "^description": "[Modernization] Consider moving to open-sources. Modernizing commercial databases on AWS helps lowers costs by eliminating punitive licensing contracts and helps improve quality, efficiency, and performance.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "I",
+    "shortDesc": "Consider open-source DB",
+    "ref": [
+      "[DB Modernization Blog]<https://aws.amazon.com/blogs/modernizing-with-aws/datavail-modernizing-databases-on-aws/>"
+    ]
+  },
+  "ConsiderAurora":{
+    "category": "T",
+    "^description": "[Modernization] Consider moving to Aurora. Amazon Aurora (Aurora) is a fully managed relational database engine that's compatible with MySQL and PostgreSQL. You already know how MySQL and PostgreSQL combine the speed and reliability of high-end commercial databases with the simplicity and cost-effectiveness of open-source databases. The code, tools, and applications you use today with your existing MySQL and PostgreSQL databases can be used with Aurora. With some workloads, Aurora can deliver up to five times the throughput of MySQL and up to three times the throughput of PostgreSQL without requiring changes to most of your existing applications.",
+    "downtime": 1,
+    "slowness": 0,
+    "additionalCost": 0,
+    "needFullTest": 1,
+    "criticality": "I",
+    "shortDesc": "Consider Aurora",
+    "ref": [
+      "[DB Modernization Blog]<https://aws.amazon.com/blogs/modernizing-with-aws/datavail-modernizing-databases-on-aws/>"
+    ]
+  }
+}
