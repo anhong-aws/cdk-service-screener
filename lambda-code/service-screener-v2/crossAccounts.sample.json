@@ -1,0 +1,21 @@
+{
+    "general":{
+        "IncludeThisAccount": true,
+        "ExternalId":"abc123",
+        "RoleName":"ServiceScreenerAssumeRole"
+    },
+    "accountLists":{
+        "123456":{
+            "ExternalId":"zzz"
+        },
+        "234567":{
+            "RoleName":"MyReadOnlyRole"
+        },
+        "345678":{
+            "ExternalId": ""
+        },
+        "456789":{
+            
+        }
+    }
+}
