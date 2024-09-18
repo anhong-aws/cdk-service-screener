@@ -25,7 +25,7 @@ class FindingsPageBuilder(CustomPageBuilder):
     ]
     
     def customPageInit(self):
-        self.wb = openpyxl.load_workbook(_C.ROOT_DIR + '/' + Config.get('HTML_ACCOUNT_FOLDER_PATH') + '/workItem.xlsx')
+        self.wb = openpyxl.load_workbook(_C.TMP_DIR + '/' + Config.get('HTML_ACCOUNT_FOLDER_PATH') + '/workItem.xlsx')
         self.initCSS()
         self.initJSLib()
         return

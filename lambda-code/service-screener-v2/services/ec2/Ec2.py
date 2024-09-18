@@ -396,15 +396,15 @@ class Ec2(Service):
                 print("!!! Skipping compute optimizer check for <" + self.region + ">")
             
         
-        #EC2 Cost Explorer checks
-        hasRunRISP = Config.get('EC2_HasRunRISP', False)
-        if hasRunRISP == False:
-            print('... (Cost Explorer Recommendations) inspecting')
-            obj = Ec2CostExplorerRecs(self.ceClient)
-            obj.run(self.__class__)
+        # #EC2 Cost Explorer checks
+        # hasRunRISP = Config.get('EC2_HasRunRISP', False)
+        # if hasRunRISP == False:
+        #     print('... (Cost Explorer Recommendations) inspecting')
+        #     obj = Ec2CostExplorerRecs(self.ceClient)
+        #     obj.run(self.__class__)
     
-            objs['CostExplorer'] = obj.getInfo()
-            Config.set('EC2_HasRunRISP', True)
+        #     objs['CostExplorer'] = obj.getInfo()
+        #     Config.set('EC2_HasRunRISP', True)
         
         # EC2 instance checks
         instances = self.getResources()

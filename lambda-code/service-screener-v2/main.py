@@ -83,6 +83,7 @@ def main(cli_options=None):
     rolesCred = {}
     if crossAccounts == True:
         _info('Cross Accounts requested, validating necessary configurations...')
+        print(crossAccountsInfo)
         cav = CrossAccountsValidator()
         cav.setIamGlobalEndpointTokenVersion()
         cav.runValidation(data = crossAccountsInfo)
@@ -206,7 +207,8 @@ def main(cli_options=None):
 
         overallTimeStart = time.time()
         # os.chdir('__fork')
-        directory = '__fork'
+        # directory = '__fork'
+        directory = _C.FORK_DIR
         if not os.path.exists(directory):
             os.mkdir(directory)
 
@@ -220,12 +222,16 @@ def main(cli_options=None):
             pass
 
         input_ranges = []
+        print(services)
         for service in services:
             input_ranges = [(service, regions, filters) for service in services]
 
-        pool = Pool(processes=int(workerCounts))
-        pool.starmap(Screener.scanByService, input_ranges)
-        pool.close()
+        print(input_ranges)
+        for service, regions, filters in input_ranges:
+            Screener.scanByService(service, regions, filters)
+        # pool = Pool(processes=int(workerCounts))
+        # pool.starmap(Screener.scanByService, input_ranges)
+        # pool.close()
 
         if testmode == False:
             CfnTrailObj.deleteStack()

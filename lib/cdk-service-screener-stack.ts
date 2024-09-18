@@ -32,10 +32,13 @@ export class CdkServiceScreenerStack extends cdk.Stack {
       contentBasedDeduplication: true, // 启用基于内容的重复数据删除
     });
 
-
+    // Get the account ID
+    const accountId = cdk.Stack.of(this).account;
+    // 创建存储桶名称
+    const bucketName = `service-screener-bucket-${accountId}`;
     // 创建 S3 存储桶
     const bucket = new s3.Bucket(this, 'ServiceScreenerBucket', {
-      bucketName: 'service-screener-bucket',
+      bucketName: bucketName,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
@@ -52,7 +55,7 @@ export class CdkServiceScreenerStack extends cdk.Stack {
 
     // 为 Lambda 执行角色添加 sts:AssumeRole 权限，允许切换角色
     lambdaExecutionRole.addToPolicy(new iam.PolicyStatement({
-      actions: ['sts:AssumeRole'],
+      actions: ['sts:AssumeRole','iam:GetAccountSummary'],
       resources: ['*'], // 允许扮演任何角色
     }));
 
@@ -97,12 +100,13 @@ export class CdkServiceScreenerStack extends cdk.Stack {
     const screenerLambda = new lambda.Function(this, 'ScreenerLambda', {
       runtime: lambda.Runtime.PYTHON_3_10,
       handler: 'index.handler',         // 指定 Lambda 处理程序的入口函数
-      code: lambda.Code.fromAsset('lambda_code/service-screener-v2'),
+      code: lambda.Code.fromAsset('lambda-code/service-screener-v2'),
       role: lambdaExecutionRole,        // 关联 Lambda 执行角色
       memorySize: 256,                  // 内存256M
       timeout: cdk.Duration.minutes(3), // 设置超时时间为 3 分钟
       environment: {
         BUCKET_NAME: bucket.bucketName,
+        DIR_PREFIX: '/tmp',
         LOG_LEVEL: 'INFO'
       },
       layers: [screenerDepsLayer]         // 添加依赖项层
@@ -117,6 +121,7 @@ export class CdkServiceScreenerStack extends cdk.Stack {
     const topic = new sns.Topic(this, 'ServiceScreenerTopic', {
       topicName: 'service-screener-topic',
     });
-
+    // sns订阅一个url
+    // topic.addSubscription(new subscriptions.UrlSubscription('https://example.com/'));
   }
 }

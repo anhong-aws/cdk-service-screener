@@ -131,16 +131,16 @@ class CrossAccountsValidator():
         return self.IncludeThisAccount
 
     def readConfig(self, data = None):
-        if os.path.exists(self.CONFIGJSON) == False:
+        if data == None and os.path.exists(self.CONFIGJSON) == False:
             _warn('{} is not found, multiple accounts scan halted'.format(self.CONFIGJSON))
             return False
 
         generalErrMsg = "Unable to process {}, encounters error: {}"
         try:
             if data == None:
-            f = open(self.CONFIGJSON)
-            data = json.load(f)
-            f.close()
+                f = open(self.CONFIGJSON)
+                data = json.load(f)
+                f.close()
 
             self.IncludeThisAccount = True
             if 'general' in data and 'IncludeThisAccount' in data['general']:
