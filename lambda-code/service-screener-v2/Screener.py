@@ -138,7 +138,7 @@ class Screener:
         
         className = service.title()
         module = 'services.' + folder + '.' + className
-        
+        # 使用 getattr 从导入的模块中获取对应的类(ServiceClass)，并返回该类。
         ServiceClass = getattr(importlib.import_module(module), className)
         return ServiceClass
     

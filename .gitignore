@@ -167,7 +167,8 @@ share/python-wheels/
 *.egg
 MANIFEST
 AWSCLIV2.pkg
-lambda-code/service-screener/tmp
+lambda-code/tmp
+lambda-code/service-screener/cust01
 cdk.out/
 
 # Unit test / coverage reports

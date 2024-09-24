@@ -96,6 +96,7 @@ class ArguParser:
             parser.add_argument('-' + k[:1], '--' + k, required=v['required'], default=v['default'], help=v.get('help', None))
 
         args = vars(parser.parse_args())
+        args['commandMode'] = True
 
         return args
 
@@ -106,6 +107,10 @@ class ArguParser:
             if value is None and rule.get('required', True):
                 raise ValueError(f"Missing required parameter: {key}")
             params[key] = value
+        # 在lambda运行设置为false
+        print(params)
+        params['commandMode'] = False
+        print(params)
         return params
 
 if __name__ == "__main__":
@@ -120,7 +125,6 @@ if __name__ == "__main__":
     params = {
         "regions": "us-east-1",
         "crossAccounts": False,
-        "includeCurrentAccount": False,
         "crossAccountsInfo": {
             "general": {
                 "IncludeThisAccount": True,

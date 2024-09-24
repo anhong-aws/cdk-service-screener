@@ -7,6 +7,16 @@ class S3Helper:
         self.s3_client = boto3.client('s3')
         self.bucket_name = bucket_name
 
+    # 生成下载对象的签名 URL
+    def generate_presigned_url_download(self, object_name, expiration=3600):
+        """生成一个允许下载对象的签名 URL"""
+        response = self.s3_client.generate_presigned_url(
+            ClientMethod='get_object',
+            Params={'Bucket': self.bucket_name, 'Key': object_name},
+            ExpiresIn=expiration
+        )
+
+        return response
     def upload_file(self, file_path, object_name):
         """Upload a file to an S3 bucket
 

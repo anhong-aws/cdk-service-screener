@@ -24,6 +24,7 @@ def number_format(num, places=2):
     return locale.format_string("%.*f", (places, num), True)
 
 def main(cli_options=None):
+    uploadToS3Result = False
     scriptStartTime = time.time()
 
     if cli_options is None:
@@ -41,6 +42,7 @@ def main(cli_options=None):
     bucketName = _cli_options['bucketName']
     crossAccounts = _cli_options['crossAccounts']
     workerCounts = _cli_options['workerCounts']
+    commandMode = _cli_options['commandMode']
 
     # return
     # print(crossAccounts)
@@ -90,7 +92,7 @@ def main(cli_options=None):
         cav.resetIamGlobalEndpointTokenVersion()
         if cav.isValidated() == False:
             print('CrossAccountsFlag=True but failed to validate, exit...')
-            exit()
+            return uploadToS3Result
 
         if cav.checkIfIncludeThisAccount() == True:
             rolesCred['default'] = {}
@@ -150,7 +152,7 @@ def main(cli_options=None):
             regions = AwsRegionSelector.prompt_for_region(flagSkipPromptForRegionConfirmation)
             if not regions or len(regions.split(',')) == 0:
                 print("No valid region(s) selected. Exiting.")
-                exit()
+                return uploadToS3Result
 
             # Set back to cli options
             _cli_options['regions'] = regions
@@ -222,16 +224,15 @@ def main(cli_options=None):
             pass
 
         input_ranges = []
-        print(services)
         for service in services:
             input_ranges = [(service, regions, filters) for service in services]
-
-        print(input_ranges)
-        for service, regions, filters in input_ranges:
-            Screener.scanByService(service, regions, filters)
-        # pool = Pool(processes=int(workerCounts))
-        # pool.starmap(Screener.scanByService, input_ranges)
-        # pool.close()
+        if commandMode:
+            pool = Pool(processes=int(workerCounts))
+            pool.starmap(Screener.scanByService, input_ranges)
+            pool.close()
+        else:
+            for service, regions, filters in input_ranges:
+                Screener.scanByService(service, regions, filters)
 
         if testmode == False:
             CfnTrailObj.deleteStack()
@@ -345,7 +346,8 @@ def main(cli_options=None):
         shutil.rmtree(apiFolder)
 
     print("Pages generated, download \033[1;42moutput.zip\033[0m to view")
-    print("CloudShell user, you may use this path: \033[1;42m =====> \033[0m ~/service-screener-v2/output.zip \033[1;42m <===== \033[0m")
+    if commandMode:
+        print("CloudShell user, you may use this path: \033[1;42m =====> \033[0m ~/service-screener-v2/output.zip \033[1;42m <===== \033[0m")
     print(f"bucketName:{bucketName}")
     if bucketName:
         # 创建S3Helper实例
@@ -357,11 +359,16 @@ def main(cli_options=None):
         success = s3_helper.upload_file(local_file_path, s3_object_name)
         if success:
             print(f'File {local_file_path} uploaded to S3 bucket {bucketName} as {s3_object_name}')
+            responseUrl = s3_helper.generate_presigned_url_download(s3_object_name);
+            print("outputUrl_s3:", responseUrl)
+            _cli_options['outputUrl'] = responseUrl
+            uploadToS3Result = True
         else:
             print('Failed to upload file')
 
     scriptTimeSpent = round(time.time() - scriptStartTime, 3)
     print("@ Thank you for using {}, script spent {}s to complete @".format(Config.ADVISOR['TITLE'], scriptTimeSpent))
+    return uploadToS3Result
 if __name__ == "__main__":
     # cli_options = ArguParser.Load()
     # main(cli_options)
