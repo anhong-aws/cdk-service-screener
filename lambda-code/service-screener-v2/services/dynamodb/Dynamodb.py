@@ -92,7 +92,7 @@ class Dynamodb(Service):
            
 if __name__ == "__main__":
     Config.init()
-    o = DynamoDb('ap-southeast-1')
+    o = Dynamodb('ap-southeast-1')
     out = o.advise()
     out = json.dumps(out, indent=4)
     print(out)
