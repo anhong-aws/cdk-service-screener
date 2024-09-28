@@ -1,6 +1,7 @@
 # Welcome to your CDK service-screener-v2 project
 
-base on the service-screener-v2, support run on AWS lambda
+基于AWS现代化架构的六大支柱，对组织下的帐号的AWS服务做审计，并通过AI做报告汇总
+
 ![Local Image](./doc/service-screener-v3.png)
 
 ## Installing
