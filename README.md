@@ -19,9 +19,10 @@ AWS_AK=123
 AWS_SK=123
 AWS_REGION_CODE=us-west-2
 AWS_BEDROCK_CLAUDE_SONNET=anthropic.claude-3-haiku-20240307-v1:0
-AWS_AI_MOCK=true
+AWS_AI_MOCK=false
 # AWS_BEDROCK_CLAUDE_SONNET=anthropic.claude-3-sonnet-20240229-v1:0
 ```
+⚠️如果没有bedrock环境，可以把AWS_AI_MOCK设置为true
 ### 安装命令
 ```
 # 构建lambda layer
