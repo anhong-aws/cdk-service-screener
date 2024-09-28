@@ -1,12 +1,51 @@
-# Welcome to your CDK TypeScript project
+# Welcome to your CDK service-screener-v2 project
 
 base on the service-screener-v2, support run on AWS lambda
+![Local Image](./doc/service-screener-v3.png)
 
-## Useful commands
+## Installing
+### 配置
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+在项目目录下创建.env文件
+
+配置范例如下
+```
+# 项目相关设置--保存报告输出文件的目录
+DIR_PREFIX=/tmp
+
+# AWS Bedrock相关设置
+AWS_AK=123
+AWS_SK=123
+AWS_REGION_CODE=us-west-2
+AWS_BEDROCK_CLAUDE_SONNET=anthropic.claude-3-haiku-20240307-v1:0
+AWS_MOCK=true
+# AWS_BEDROCK_CLAUDE_SONNET=anthropic.claude-3-sonnet-20240229-v1:0
+```
+### 安装命令
+```
+# 构建lambda layer
+./package_lambda_layer.sh
+# deploy this stack to your default AWS account/region
+cdk deploy
+```
+## 运行测试
+1.发送请求到sqs队列
+
+![sqs](./doc/sqs.png)
+
+简单请求范例
+```
+{
+  "transactionId": "123",
+  "regions": "us-east-1",
+  "custCode": "cust01",
+  "crossAccountsInfo": {
+    "accountLists": {
+      "123123238899": {},
+      "124124848323": {}
+    }
+  }
+}
+```
+2.服务体检报告处理后，发送消息到sns，比如在sns上配置邮件订阅，或者http订阅
+![result](./doc/result.png)
