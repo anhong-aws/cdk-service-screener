@@ -21,7 +21,7 @@ class IamAccount(IamCommon):
         self.accClient = awsClients['accClient']
         self.sppClient = awsClients['sppClient']
         # self.gdClient = awsClients['gdClient']
-        self.budgetClient = awsClients['budgetClient']
+        # self.budgetClient = awsClients['budgetClient']
         self.orgClient = awsClients['orgClient']
         
         
@@ -190,22 +190,22 @@ class IamAccount(IamCommon):
             
         self.results["enableGuardDuty"] = [-1, ""]
         
-    def _checkHasCostBudget(self):
-        stsInfo = Config.get('stsInfo')
+    # def _checkHasCostBudget(self):
+    #     stsInfo = Config.get('stsInfo')
         
-        budgetClient = self.budgetClient
+    #     budgetClient = self.budgetClient
         
-        try:
-            resp = budgetClient.describe_budgets(AccountId=stsInfo['Account'])
+    #     try:
+    #         resp = budgetClient.describe_budgets(AccountId=stsInfo['Account'])
         
-            if 'Budgets' in resp:
-                return 
+    #         if 'Budgets' in resp:
+    #             return 
         
-            self.results['enableCostBudget'] = [-1, ""]
-        except botocore.exceptions.ClientError as e:
-            ecode = e.response['Error']['Code']
-            emsg = e.response['Error']['Message']
-            print(ecode, emsg)
+    #         self.results['enableCostBudget'] = [-1, ""]
+    #     except botocore.exceptions.ClientError as e:
+    #         ecode = e.response['Error']['Code']
+    #         emsg = e.response['Error']['Message']
+    #         print(ecode, emsg)
     
     def _checkSupportPlan(self):
         sppClient = self.sppClient

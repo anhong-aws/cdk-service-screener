@@ -12,11 +12,11 @@ def handler(event, context):
         # 从 SQS 事件中获取消息
         print("event:",json.dumps(event, ensure_ascii=True))
         print("root dir:",str(pathlib.Path.cwd()))
-        AWS_PROFILE = os.environ.get('AWS_PROFILE', '')
         # 读取环境变量中的目录前缀
-        print("AWS_PROFILE：",AWS_PROFILE)
         dir_prefix = os.environ.get('DIR_PREFIX', '')
         bucket_name = os.environ.get('BUCKET_NAME', '')
+        AWS_AK = os.environ.get('AWS_AK', '')
+        print("AWS_AK:",AWS_AK)
         print("bucket_name:",bucket_name)
         # return
         resultInfo = {
@@ -41,6 +41,8 @@ def handler(event, context):
             # 从 params 中获取 path,并与目录前缀拼接
             custCode = params.get('custCode', '')
             transactionId = params.get('transactionId', '')
+            aiReport = params.get('aiReport', True)
+            params['aiReport'] = aiReport
             params['path'] = os.path.join(dir_prefix, custCode)
             params['bucketName'] = bucket_name;
             params['crossAccounts'] = True;
@@ -138,7 +140,7 @@ def validate_json_data(data):
 # 示例输入
 params = {
     "regions": "us-east-1",
-    "services": "ec2",
+    # "services": "ec2",
     "custCode": f"{_C.ROOT_DIR}/../tmp/cust01",
     # "profile": "payer01",
     "crossAccountsInfo": {
@@ -148,7 +150,8 @@ params = {
           "ExternalId": ""
       },
       "accountLists": {
-          "722350150383": {}
+          "722350150383": {},
+          "611234940057": {}
       }
   }
 }
@@ -162,15 +165,15 @@ example_event = {
         ]
     }
 
-# handler(example_event, None)
-data = {
-  "regions": "us-east-1",
-  "services": "ec2",
-  "custCode": "cust01",
-  "crossAccountsInfo": {
-    "accountLists": {
-      "722350150383": {}
-    }
-  }
-}
+handler(example_event, None)
+# data = {
+#   "regions": "us-east-1",
+#   "services": "ec2",
+#   "custCode": "cust01",
+#   "crossAccountsInfo": {
+#     "accountLists": {
+#       "722350150383": {}
+#     }
+#   }
+# }
 # print(isinstance(data["custCode"], str))

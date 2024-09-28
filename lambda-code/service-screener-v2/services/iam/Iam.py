@@ -149,6 +149,8 @@ class Iam(Service):
         
         roles = self.getRoles()
         for role in roles:
+            if ("OrganizationAccountAccessRole" == role['RoleName']):
+                continue
             print('... (IAM::Role) inspecting ' + role['RoleName'])
             obj = IamRole(role, self.iamClient)
             obj.run(self.__class__)

@@ -17,6 +17,7 @@ from utils.ArguParser import ArguParser
 from utils.CfnTrail import CfnTrail
 from utils.CrossAccountsValidator import CrossAccountsValidator
 from utils.Tools import _info, _warn
+from utils.ServiceResponseCollector import ServiceResponseCollector
 import constants as _C
 from utils.AwsRegionSelector import AwsRegionSelector
 from Screener import Screener
@@ -335,6 +336,13 @@ def main(cli_options=None):
 
     outputDir = _C.TMP_DIR
     if runmode == 'report':
+        print("----start bedrock")
+        overallTimeStart = time.time()
+        aiReport = _cli_options['aiReport']
+        service_response_collector = ServiceResponseCollector(_C.ADMINLTE_DIR, services, aiReport)
+        service_response_collector.collect_responses()
+        timespent = round(time.time() - overallTimeStart, 3)
+        print("----end bedrock,Time consumed (seconds): " + str(timespent))
         shutil.make_archive('output', 'zip', _C.ADMINLTE_TMP_DIR)
     else:
         apiFolder = _C.TMP_DIR + '/aws-api'

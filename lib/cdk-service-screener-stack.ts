@@ -4,10 +4,10 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
-import * as s3Notifications from 'aws-cdk-lib/aws-s3-notifications';
 import * as sns from 'aws-cdk-lib/aws-sns';
-import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as dotenv from 'dotenv' 
+dotenv.config()
 /**
  * 
 导入所需的 AWS CDK 库
@@ -24,9 +24,11 @@ export class CdkServiceScreenerStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    if (!process.env.DIR_PREFIX) throw Error('empty environment variables');
+
     // 创建 FIFO SQS 队列
     const queue = new sqs.Queue(this, 'ServiceScreenerQueue', {
-      visibilityTimeout: cdk.Duration.seconds(300),
+      visibilityTimeout: cdk.Duration.seconds(1000),
       queueName: 'service-screener-queue.fifo',
       fifo: true, // 设置为 FIFO 队列
       contentBasedDeduplication: true, // 启用基于内容的重复数据删除
@@ -103,10 +105,15 @@ export class CdkServiceScreenerStack extends cdk.Stack {
       code: lambda.Code.fromAsset('lambda-code/service-screener-v2'),
       role: lambdaExecutionRole,        // 关联 Lambda 执行角色
       memorySize: 256,                  // 内存256M
-      timeout: cdk.Duration.minutes(3), // 设置超时时间为 3 分钟
+      timeout: cdk.Duration.minutes(15), // 设置超时时间为 15 分钟
       environment: {
         BUCKET_NAME: bucket.bucketName,
-        DIR_PREFIX: '/tmp',
+        DIR_PREFIX: process.env.DIR_PREFIX,
+        AWS_AK: process.env.AWS_AK!,
+        AWS_SK: process.env.AWS_SK!,
+        AWS_REGION_CODE: process.env.AWS_REGION_CODE!,
+        AWS_MODEL_ID: process.env.AWS_MODEL_ID!,
+        AWS_MOCK: process.env.AWS_MOCK!,
         LOG_LEVEL: 'INFO'
       },
       layers: [screenerDepsLayer]         // 添加依赖项层
@@ -114,7 +121,10 @@ export class CdkServiceScreenerStack extends cdk.Stack {
 
 
     // 为 Lambda 函数添加 SQS 事件源映射
-    const eventSource = new lambdaEventSources.SqsEventSource(queue);
+    // const eventSource = new lambdaEventSources.SqsEventSource(queue);
+    const eventSource = new lambdaEventSources.SqsEventSource(queue, {
+      batchSize: 1, // 设置每次批量获取 1 条消息
+    });
     screenerLambda.addEventSource(eventSource);
 
     // 创建 SNS 主题

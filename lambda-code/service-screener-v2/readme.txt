@@ -1,7 +1,7 @@
 ## First installation
 python -m venv .
 source bin/activate
-git clone https://github.com/aws-samples/service-screener-v2.git
+git clone https://github.com/anhong-aws/cdk-service-screener.git
 cd service-screener-v2
 pip install -r requirements.txt
 alias screener="python3 $(pwd)/main.py"

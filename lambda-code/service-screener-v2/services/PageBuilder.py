@@ -676,6 +676,8 @@ $('#changeAcctId').change(function(){
         items = [[card, '']]
         output.append(self.generateRowWithCol(size=12, items=items, rowHtmlAttr="data-context='summaryChart'"))
         ## Chart completed
+        
+        output.append("<!-- $ai -->")
 
         ## Filter
         filterTitle = "<i class='icon fas fa-search'></i> Filter"
@@ -818,7 +820,7 @@ $('span.detailCategory').each(function(){
       </div>
     </div>
     <div class='col-md-4'>
-      <div class="form-group clearfix">
+      <div class="clearfix form-group">
         <div class="icheck-success d-inline">
           <input type="radio" id="radio_cs1" name=radio_cs value='expand'>
           <label for="radio_cs1">Expand / </label>
