@@ -137,43 +137,33 @@ def validate_json_data(data):
         return None
 
 
-# 示例输入
-params = {
-    "regions": "us-east-1",
-    # "services": "ec2",
-    "custCode": f"{_C.ROOT_DIR}/../tmp/cust01",
-    # "profile": "payer01",
-    "crossAccountsInfo": {
-      "general": {
-          "IncludeThisAccount": False,
-          "RoleName": "OrganizationAccountAccessRole",
-          "ExternalId": ""
-      },
-      "accountLists": {
-          "722350150383": {},
-          "611234940057": {}
-      }
-  }
-}
-
-example_event = {
-    "Records": [
-        {
-            "messageId": "1234567890abcdef",
-            "body": json.dumps(params, ensure_ascii=True)
-        }
-        ]
-    }
-
-handler(example_event, None)
-# data = {
-#   "regions": "us-east-1",
-#   "services": "ec2",
-#   "custCode": "cust01",
-#   "crossAccountsInfo": {
-#     "accountLists": {
-#       "722350150383": {}
-#     }
+# # 示例输入
+# params = {
+#     "regions": "us-east-1",
+#     "services": "dynamodb,eks,ec2",
+#     "custCode": f"{_C.ROOT_DIR}/../tmp/cust01",
+#     "aiReport": True,
+#     # "profile": "payer01",
+#     "crossAccountsInfo": {
+#       "general": {
+#           "IncludeThisAccount": False,
+#           "RoleName": "OrganizationAccountAccessRole",
+#           "ExternalId": ""
+#       },
+#       "accountLists": {
+#           "722350150383": {}
+#         #   "611234940057": {}
+#       }
 #   }
 # }
-# print(isinstance(data["custCode"], str))
+
+# example_event = {
+#     "Records": [
+#         {
+#             "messageId": "1234567890abcdef",
+#             "body": json.dumps(params, ensure_ascii=True)
+#         }
+#         ]
+#     }
+
+# handler(example_event, None)

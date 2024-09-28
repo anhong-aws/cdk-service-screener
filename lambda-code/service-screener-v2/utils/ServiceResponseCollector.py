@@ -18,11 +18,12 @@ class HTMLReader:
         except FileNotFoundError:
             print(f"Error: File '{file_path}' not found.")
             html_content = None  # 或者返回一个默认值
+        
         if html_content is not None:
                 cleaned_content = re.sub(r'\s+', '', html_content)
                 # print(cleaned_content)
-                if "<h3>0</h3><p>Resources</p>" in cleaned_content:
-                    print(f"{self.service} does not contain the code snippet.")
+                if "<h3>0</h3><p>TotalFindings</p>" in cleaned_content:
+                    print(f"--{self.service} 服务没有发现问题，忽略AI汇总.")
                     html_content = None
         return html_content
 
