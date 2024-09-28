@@ -141,7 +141,7 @@ class ServiceResponseCollector:
     #                 self.service_responses[service] = response_text
 
     def get_combined_responses(self):
-        combined_responses = '\n------------下一个服务体检总结报告---------------\n'.join(self.service_responses.values())
+        combined_responses = '\n---------------------------\n'.join(self.service_responses.values())
         return combined_responses
 
     def get_final_summary(self):
@@ -246,7 +246,7 @@ class ServiceResponseCollector:
        </a>
      </li>
      <li class="nav-item">
-       <a href="report.html" target="_blank" rel="noopener noreferrer" class="nav-link">
+       <a href="report.html" class="nav-link">
          <i class="nav-icon fas fa-magic" style="color: gold;"></i>AI Report
        </a>
      </li>
