@@ -155,7 +155,7 @@ class ServiceResponseCollector:
         #     self.service_responses["final"] = final_response
         return final_response
 
-    def generate_html_report(self, path_to_folder, filtered_folders, aiReport):
+    def generate_html_report(self, path_to_folder, filtered_folders):
         html_report = """
 <!DOCTYPE html>
 <html>
