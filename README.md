@@ -1,6 +1,6 @@
 # Welcome to your CDK service-screener-v2 project
 
-基于AWS现代化架构的六大支柱，对组织下的帐号的AWS服务做审计，并通过AI做报告汇总
+基于AWS现代化架构的六大支柱，对AWS服务做审计，并通过AI做报告汇总
 
 ![Local Image](./doc/service-screener-v3.png)
 
@@ -48,6 +48,8 @@ cdk deploy
   }
 }
 ```
+这里面执行的环境需要对体检的帐号要有权限，这里采用默认角色，更多参数参考params.md
+
 2.服务体检报告处理后，发送消息到sns，比如在sns上配置邮件订阅，或者http订阅
 ![response](doc/response_message.png)
 通过消息上的url下载报告
