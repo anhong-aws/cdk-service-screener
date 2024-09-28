@@ -48,4 +48,8 @@ cdk deploy
 }
 ```
 2.服务体检报告处理后，发送消息到sns，比如在sns上配置邮件订阅，或者http订阅
-![result](./doc/result.png)
+![response](doc/response_message.png)
+通过消息上的url下载报告
+
+3.报告范例页面如下
+![alt text](doc/report.png)
