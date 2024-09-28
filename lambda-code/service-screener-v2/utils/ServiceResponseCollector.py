@@ -32,7 +32,7 @@ class AWSBedrockClient:
     # aws_model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     def __init__(self):
         self.aws_ak = os.environ.get('AWS_AK')
-        self.AWS_MOCK = os.environ.get('AWS_MOCK')
+        self.AWS_AI_MOCK = os.environ.get('AWS_AI_MOCK')
         self.aws_sk = os.environ.get('AWS_SK')
         self.aws_region_code = os.environ.get('AWS_REGION_CODE')
         self.aws_model_id = os.environ.get('AWS_MODEL_ID')
@@ -45,7 +45,7 @@ class AWSBedrockClient:
             aws_secret_access_key=self.aws_sk,
         )
     def is_truthy(self):
-        return self.AWS_MOCK.lower() in ("true", "1", "yes")
+        return self.AWS_AI_MOCK.lower() in ("true", "1", "yes")
     def invoke_model(self, prompt, system_prompt):
         native_request = {
             "anthropic_version": "bedrock-2023-05-31",

@@ -113,7 +113,7 @@ export class CdkServiceScreenerStack extends cdk.Stack {
         AWS_SK: process.env.AWS_SK!,
         AWS_REGION_CODE: process.env.AWS_REGION_CODE!,
         AWS_MODEL_ID: process.env.AWS_MODEL_ID!,
-        AWS_MOCK: process.env.AWS_MOCK!,
+        AWS_AI_MOCK: process.env.AWS_AI_MOCK!,
         LOG_LEVEL: 'INFO'
       },
       layers: [screenerDepsLayer]         // 添加依赖项层
