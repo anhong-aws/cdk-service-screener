@@ -364,6 +364,7 @@ def main(cli_options=None):
         # 上传本地文件到S3存储桶
         local_file_path = outputDir + '/output.zip'
         s3_object_name = outputDir + '/output.zip'
+        s3_object_name = s3_object_name[1:] 
         success = s3_helper.upload_file(local_file_path, s3_object_name)
         if success:
             print(f'File {local_file_path} uploaded to S3 bucket {bucketName} as {s3_object_name}')
