@@ -137,10 +137,10 @@ def validate_json_data(data):
         return None
 
 
-# # 示例输入
+# 示例输入
 # params = {
 #     "regions": "us-east-1",
-#     "services": "dynamodb,eks,ec2",
+#     # "services": "dynamodb,eks,ec2",
 #     "custCode": f"{_C.ROOT_DIR}/../tmp/cust01",
 #     "aiReport": True,
 #     # "profile": "payer01",
@@ -167,3 +167,13 @@ def validate_json_data(data):
 #     }
 
 # handler(example_event, None)
+
+# from utils.PromptHelper import PromptHelper
+
+# def test():
+
+#     promptHelper = PromptHelper()
+#     promptHelper.getPromptByService("default", "EC2")
+#     promptHelper.getPromptByServices("default", "EC2,lambda")
+
+# test()

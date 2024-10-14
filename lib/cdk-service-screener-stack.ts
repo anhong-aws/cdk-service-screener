@@ -109,11 +109,13 @@ export class CdkServiceScreenerStack extends cdk.Stack {
       environment: {
         BUCKET_NAME: bucket.bucketName,
         DIR_PREFIX: process.env.DIR_PREFIX,
+        NOT_CLI: 'true',
         AWS_AK: process.env.AWS_AK!,
         AWS_SK: process.env.AWS_SK!,
         AWS_REGION_CODE: process.env.AWS_REGION_CODE!,
         AWS_MODEL_ID: process.env.AWS_MODEL_ID!,
         AWS_AI_MOCK: process.env.AWS_AI_MOCK!,
+        PROMPT_KEY: process.env.PROMPT_KEY!,
         LOG_LEVEL: 'INFO'
       },
       layers: [screenerDepsLayer]         // 添加依赖项层

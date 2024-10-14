@@ -3,6 +3,7 @@ import boto3
 import json
 import re
 import concurrent.futures
+from utils.PromptHelper import PromptHelper
 
 class HTMLReader:
     def __init__(self, file_path, service):
@@ -33,7 +34,9 @@ class AWSBedrockClient:
     def __init__(self):
         self.aws_ak = os.environ.get('AWS_AK')
         self.AWS_AI_MOCK = os.environ.get('AWS_AI_MOCK')
-        self.aws_sk = os.environ.get('AWS_SK')
+        if (self.AWS_AI_MOCK is None):
+            self.AWS_AI_MOCK = "false"
+        self.aws_sk = os.environ.get('AWS_SK','')
         self.aws_region_code = os.environ.get('AWS_REGION_CODE')
         self.aws_model_id = os.environ.get('AWS_MODEL_ID')
         if (self.aws_model_id is None):
@@ -77,11 +80,15 @@ class AWSBedrockClient:
         return response_text
 
 class ServiceResponseCollector:
-    def __init__(self, file_path, services, aiReport):
+    def __init__(self, root_dir, file_path, services, aiReport):
+        self.root_dir = root_dir
         self.file_path = file_path
         self.services = services
         self.aiReport = aiReport
         self.service_responses = {}
+        self.promptHelper = PromptHelper(root_dir)
+        self.promptKey = os.environ.get('PROMPT_KEY','default')
+    
     def collect_responses(self):
         files_in_directory = os.listdir(self.file_path)
         filtered_folders = [folder for folder in files_in_directory if folder.isnumeric()]
@@ -117,8 +124,8 @@ class ServiceResponseCollector:
         html_content = html_reader.read_html()
         if html_content is None:
             return service, None
-
-        system_prompt = f"基于AWS现代化架构的六大支柱的{service}服务审计的报告，帮我做一个总结，并提供建议，按严重性或者重要性排序，使用中文回复"
+        system_prompt = self.promptHelper.getPromptByService(self.promptKey, service)
+        # system_prompt = f"基于AWS现代化架构的六大支柱的{service}服务审计的报告，帮我做一个总结，并提供建议，按严重性或者重要性排序，使用中文回复"
 
         bedrock_client = AWSBedrockClient()
         response_text = bedrock_client.invoke_model(html_content, system_prompt)
@@ -147,7 +154,8 @@ class ServiceResponseCollector:
     def get_final_summary(self):
         combined_responses = self.get_combined_responses()
 
-        system_prompt = "需要你在各种服务的审计报告汇总的信息里面，需要再提炼一个精华的汇总，最好是对客户最有用的部分;2.不要针对一种服务做汇总，请使用中文回复"
+        system_prompt = self.promptHelper.getPromptByServices(self.promptKey, self.services)
+        # system_prompt = "需要你在各种服务的审计报告汇总的信息里面，需要再提炼一个精华的汇总，最好是对客户最有用的部分;2.不要针对一种服务做汇总，请使用中文回复"
 
         bedrock_client = AWSBedrockClient()
         final_response = bedrock_client.invoke_model(combined_responses, system_prompt)

@@ -339,7 +339,7 @@ def main(cli_options=None):
         print("----start bedrock")
         overallTimeStart = time.time()
         aiReport = _cli_options['aiReport']
-        service_response_collector = ServiceResponseCollector(_C.ADMINLTE_DIR, services, aiReport)
+        service_response_collector = ServiceResponseCollector(_C.ROOT_DIR, _C.ADMINLTE_DIR, services, aiReport)
         service_response_collector.collect_responses()
         timespent = round(time.time() - overallTimeStart, 3)
         print("----end bedrock,Time consumed (seconds): " + str(timespent))
