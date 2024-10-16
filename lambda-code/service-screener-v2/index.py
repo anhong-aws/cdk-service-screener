@@ -28,6 +28,7 @@ def handler(event, context):
             print(f"Processing message with ID: {message_id}")
             print(f"Processing body: {record['body']}")
             params = json.loads(record['body'])
+            params['crossAccounts'] = params.get('crossAccounts', True);
             errors = validate_json_data(params)
             if (errors is not None):
                 resultInfo = {
@@ -45,7 +46,6 @@ def handler(event, context):
             params['aiReport'] = aiReport
             params['path'] = os.path.join(dir_prefix, custCode)
             params['bucketName'] = bucket_name;
-            params['crossAccounts'] = True;
             _C.TMP_DIR=params['path']
             _C.ADMINLTE_TMP_DIR = _C.TMP_DIR + '/adminlte'
             _C.ADMINLTE_DIR = _C.ADMINLTE_TMP_DIR + '/aws'
@@ -96,7 +96,10 @@ def validate_json_data(data):
     errors = []
 
     # 检查必需字段是否存在
-    required_fields = ["regions", "custCode", "crossAccountsInfo"]
+    required_fields = ["regions", "custCode"]
+    if data['crossAccounts'] == True:
+        required_fields.append("crossAccountsInfo")
+    
     for field in required_fields:
         if field not in data:
             errors.append(f"Missing required field: {field}")
@@ -143,18 +146,20 @@ def validate_json_data(data):
 #     # "services": "dynamodb,eks,ec2",
 #     "custCode": f"{_C.ROOT_DIR}/../tmp/cust01",
 #     "aiReport": True,
+#     "crossAccounts": False,
+#     # "transactionId": "XXXXXXXXXX","
 #     # "profile": "payer01",
-#     "crossAccountsInfo": {
-#       "general": {
-#           "IncludeThisAccount": False,
-#           "RoleName": "OrganizationAccountAccessRole",
-#           "ExternalId": ""
-#       },
-#       "accountLists": {
-#           "722350150383": {}
-#         #   "611234940057": {}
-#       }
-#   }
+#     # "crossAccountsInfo": {
+#     #   "general": {
+#     #       "IncludeThisAccount": False,
+#     #       "RoleName": "OrganizationAccountAccessRole",
+#     #       "ExternalId": ""
+#     #   },
+#     #   "accountLists": {
+#     #       "722350150383": {}
+#     #     #   "611234940057": {}
+#     #   }
+#     # }
 # }
 
 # example_event = {
