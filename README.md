@@ -35,7 +35,7 @@ cdk deploy
 
 ![sqs](./doc/sqs.png)
 
-简单请求范例
+跨帐号检查请求范例
 ```
 {
   "transactionId": "123",
@@ -49,6 +49,22 @@ cdk deploy
   }
 }
 ```
+
+只检查lambda运行的aws帐号的请求范例
+```
+{
+  "transactionId": "123",
+  "regions": "us-east-1",
+  "custCode": "cust01",
+  "crossAccountsInfo": {
+    "accountLists": {
+      "123123238899": {},
+      "124124848323": {}
+    }
+  }
+}
+```
+
 这里面执行的环境需要对体检的帐号要有权限，这里采用默认角色，更多[参数说明](param.md)
 
 2.服务体检报告处理后，发送消息到sns，比如在sns上配置邮件订阅，或者http订阅
