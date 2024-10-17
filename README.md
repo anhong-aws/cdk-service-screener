@@ -25,6 +25,8 @@ AWS_AI_MOCK=false
 ⚠️如果没有bedrock环境，可以把AWS_AI_MOCK设置为true
 ### 安装命令
 ```
+git clone https://github.com/anhong-aws/cdk-service-screener.git
+cd cdk-service-screener
 # 构建lambda layer
 ./package_lambda_layer.sh
 # deploy this stack to your default AWS account/region

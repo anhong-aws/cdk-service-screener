@@ -96,13 +96,16 @@ def main(cli_options=None):
             return uploadToS3Result
 
         if cav.checkIfIncludeThisAccount() == True:
+            # 如果要体检当前账号，则指定的角色key为default，默认用lambda的权限执行
             rolesCred['default'] = {}
-
+        # 根据每个体检账户的角色，获取ak/sk/session，key为账户ID
         tmp = cav.getCred()
         rolesCred.update(tmp)
+        print("rolesCred_final:",rolesCred)
     else:
         if crossAccountsInfo == None:
             rolesCred = {'default': {}}
+            print("rolesCred_final for not crossAccounts:",rolesCred)
         else:
             print('CrossAccountsFlag not can set false in lambda')
             return
