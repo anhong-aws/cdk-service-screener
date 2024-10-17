@@ -72,6 +72,27 @@ export class CdkServiceScreenerStack extends cdk.Stack {
       ],
       resources: ['*'], // 这里资源可以根据你的实际需求进行限制
     }));
+    // 添加CloudFormation 权限// 添加 CloudFormation 权限
+    lambdaExecutionRole.addToPolicy(new iam.PolicyStatement({
+      actions: [
+        'cloudformation:CreateStack',
+        'cloudformation:DeleteStack',
+        'cloudformation:DescribeStacks',
+        'cloudformation:UpdateStack',
+        'cloudformation:CreateChangeSet',
+        'cloudformation:DeleteChangeSet',
+        'cloudformation:DescribeChangeSet',
+        'cloudformation:ExecuteChangeSet'
+      ],
+      resources: ['arn:aws:cloudformation:us-east-1:*:stack/ssv2-*/*'],
+      conditions: {
+        'StringEquals': {
+          'aws:RequestedRegion': 'us-east-1'
+        }
+      }
+    }));
+
+
     // 启动lambda insight
     lambdaExecutionRole.addManagedPolicy(
       iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy')
