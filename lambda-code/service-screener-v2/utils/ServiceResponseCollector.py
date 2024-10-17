@@ -50,6 +50,9 @@ class AWSBedrockClient:
     def is_truthy(self):
         return self.AWS_AI_MOCK.lower() in ("true", "1", "yes")
     def invoke_model(self, prompt, system_prompt):
+        if not prompt:
+            print("需要AI总结内容为空")
+            return None
         native_request = {
             "anthropic_version": "bedrock-2023-05-31",
             "max_tokens": 2048,
@@ -122,7 +125,7 @@ class ServiceResponseCollector:
     def process_service(self, path_to_folder, service):
         html_reader = HTMLReader(path_to_folder, service)
         html_content = html_reader.read_html()
-        if html_content is None:
+        if not html_content:
             return service, None
         system_prompt = self.promptHelper.getPromptByService(self.promptKey, service)
         # system_prompt = f"基于AWS现代化架构的六大支柱的{service}服务审计的报告，帮我做一个总结，并提供建议，按严重性或者重要性排序，使用中文回复"

@@ -48,7 +48,12 @@ export class CdkServiceScreenerStack extends cdk.Stack {
     const lambdaExecutionRole = new iam.Role(this, 'ScreennerLambdaExecutionRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'), // Lambda 服务的身份标识
     });
+    // 获取 ReadOnlyAccess 托管策略
+    const readOnlyAccessPolicy = iam.ManagedPolicy.fromAwsManagedPolicyName('ReadOnlyAccess');
 
+    // 将 ReadOnlyAccess 策略附加到 Lambda 执行角色
+    lambdaExecutionRole.addManagedPolicy(readOnlyAccessPolicy);
+    
     // 为 Lambda 执行角色添加策略
     lambdaExecutionRole.addToPolicy(new iam.PolicyStatement({
       actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents', 'cloudwatch:*'],
@@ -92,11 +97,6 @@ export class CdkServiceScreenerStack extends cdk.Stack {
       }
     }));
 
-
-    // 启动lambda insight
-    lambdaExecutionRole.addManagedPolicy(
-      iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy')
-    );
     // 为 Lambda 执行角色添加上传 S3 权限
     lambdaExecutionRole.addToPolicy(new iam.PolicyStatement({
       actions: [
