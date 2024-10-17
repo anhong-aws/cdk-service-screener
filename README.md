@@ -37,13 +37,35 @@ cdk deploy
 
 ![sqs](./doc/sqs.png)
 
-跨帐号检查请求范例
+跨帐号检查请求范例：
+默认不体检本身，默认跨账户的角色名为OrganizationAccountAccessRole
 ```
 {
   "transactionId": "123",
   "regions": "us-east-1",
   "custCode": "cust01",
   "crossAccountsInfo": {
+    "accountLists": {
+      "123123238899": {},
+      "124124848323": {}
+    }
+  }
+}
+```
+
+跨帐号检查请求范例：
+体检lambda所在的aws账户，指定跨账户的角色名为OrganizationAccountAccessRole
+```
+{
+  "transactionId": "123",
+  "regions": "us-east-1",
+  "custCode": "cust01",
+  "crossAccountsInfo": {
+		"general": {
+			"IncludeThisAccount": true,
+			"RoleName": "OrganizationAccountAccessRole",
+			"ExternalId": ""
+		},
     "accountLists": {
       "123123238899": {},
       "124124848323": {}
