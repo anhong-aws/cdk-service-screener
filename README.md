@@ -38,7 +38,8 @@ cdk deploy --all --require-approval never
 ![sqs](./doc/sqs.png)
 
 跨帐号检查请求范例：
-默认不体检本身，默认跨账户的角色名为OrganizationAccountAccessRole
+- 默认不体检本身，
+- 默认跨账户的角色名为OrganizationAccountAccessRole
 ```
 {
   "transactionId": "123",
@@ -54,8 +55,8 @@ cdk deploy --all --require-approval never
 ```
 
 跨帐号检查请求范例：
-体检lambda所在的aws账户+跨账户体检
-RoleName为跨账户的体检角色
+- 体检lambda所在的aws账户+跨账户体检
+- RoleName为跨账户的体检角色
 ```
 {
   "transactionId": "123",
