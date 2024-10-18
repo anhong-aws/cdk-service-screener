@@ -28,6 +28,11 @@ def getLog(params,resultInfo):
     transactionId = params.get('transactionId', 'NONE')
     now = datetime.datetime.now()
     formatted_time = f"{now:%Y-%m-%d %H:%M:%S}"
+    # 加上 30 天
+    expire_time = now + datetime.timedelta(days=30)
+    # 格式化输出
+    formatted_expire_time = expire_time.strftime("%Y-%m-%d %H:%M:%S")
+    
     message = {
                 "transactionId": transactionId,
                 "parentType": "service-screener",
@@ -36,7 +41,8 @@ def getLog(params,resultInfo):
                 "body": resultInfo["body"],
                 "custCode": custCode,
                 "outputUrl": outputUrl,
-                "responseTime": formatted_time
+                "responseTime": formatted_time,
+                "expireTime": formatted_expire_time
             }
     params.update(message)
     return json.dumps(params)

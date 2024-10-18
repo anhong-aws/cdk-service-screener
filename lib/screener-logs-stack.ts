@@ -14,10 +14,10 @@ export class ScreenerLogsStack extends cdk.Stack {
     //crate a dynamodb table
     const table = new ddb.Table(this, 'ScreenerLogItemsTable', {
       tableName: 'screener-log-items',
-      partitionKey: {name: 'message_id', type: ddb.AttributeType.STRING},
-      sortKey: { name: 'custCode', type: ddb.AttributeType.STRING },
+      partitionKey: {name: 'custCode', type: ddb.AttributeType.STRING},
+      sortKey: { name: 'transactionId', type: ddb.AttributeType.STRING },
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
-      // timeToLiveAttribute: 'expire_time', // 定义 TTL 属性名称
+      timeToLiveAttribute: 'expireTime', // 定义 TTL 属性名称
       removalPolicy: cdk.RemovalPolicy.DESTROY
     })
 

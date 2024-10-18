@@ -17,16 +17,16 @@ class CrossAccountsValidator():
 
     ## Remove sample in future
     CONFIGJSON = _C.ROOT_DIR + '/crossAccounts.json'
-    ROLEINFO = {}
 
-    VALIDATED = False
-    IncludeThisAccount = True
     MAXTOKENCHECKRETRY = 5
     WAIT_TOKENCHECKRETRY = 3
 
     def __init__(self):
         iam = boto3.client('iam', region_name = 'us-east-1')
         self.iamClient = iam
+        self.ROLEINFO = {}
+        self.VALIDATED = False
+        self.IncludeThisAccount = True
 
     def setIamGlobalEndpointTokenVersion(self):
         resp = self.iamClient.get_account_summary()

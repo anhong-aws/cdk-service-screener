@@ -5,6 +5,7 @@ import constants as _C
 import traceback
 from utils.sns_main import run_sns_operations
 import pathlib
+import datetime
 
 def handler(event, context):
 
@@ -22,13 +23,18 @@ def handler(event, context):
         'statusCode': 200,
         'body': json.dumps('Execution completed successfully')
     }
+
+    now = datetime.datetime.now()
+    formatted_time = f"{now:%Y-%m-%d %H:%M:%S}"
+
     for record in event['Records']:
         try:
             message_id = record['messageId']
             # print(f"Processing message with ID: {message_id}")
             # print(f"Processing body: {record['body']}")
             params = json.loads(record['body'])
-            params['message_id'] = message_id
+            params['messageId'] = message_id
+            params['requestDate'] = formatted_time
             params['crossAccounts'] = params.get('crossAccounts', True);
             errors = validate_json_data(params)
             if (errors is not None):
