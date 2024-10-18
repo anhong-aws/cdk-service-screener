@@ -54,7 +54,8 @@ cdk deploy --all --require-approval never
 ```
 
 跨帐号检查请求范例：
-体检lambda所在的aws账户，指定跨账户的角色名为OrganizationAccountAccessRole
+体检lambda所在的aws账户+跨账户体检
+RoleName为跨账户的体检角色
 ```
 {
   "transactionId": "123",
@@ -78,14 +79,10 @@ cdk deploy --all --require-approval never
 ```
 {
   "transactionId": "123",
-  "regions": "us-east-1",
-  "custCode": "cust01",
-  "crossAccountsInfo": {
-    "accountLists": {
-      "123123238899": {},
-      "124124848323": {}
-    }
-  }
+	"regions": "us-east-1",
+	"services": "ec2",
+	"custCode": "cust01",
+  "crossAccounts": false
 }
 ```
 
