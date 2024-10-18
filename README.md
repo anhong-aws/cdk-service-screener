@@ -2,7 +2,7 @@
 
 基于AWS现代化架构的六大支柱，对AWS服务做审计，并通过AI做报告汇总
 
-![Local Image](./doc/service-screener-v3.png)
+![Local Image](./doc/service-screener-v4.png)
 
 ## Installing
 ### 配置
@@ -30,7 +30,7 @@ cd cdk-service-screener
 # 构建lambda layer
 ./package_lambda_layer.sh
 # deploy this stack to your default AWS account/region
-cdk deploy
+cdk deploy --all --require-approval never
 ```
 ## 运行测试
 1.发送请求到sqs队列

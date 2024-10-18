@@ -8,26 +8,27 @@ import pathlib
 
 def handler(event, context):
 
-    try:
-        # 从 SQS 事件中获取消息
-        print("event:",json.dumps(event, ensure_ascii=True))
-        print("root dir:",str(pathlib.Path.cwd()))
-        # 读取环境变量中的目录前缀
-        dir_prefix = os.environ.get('DIR_PREFIX', '')
-        bucket_name = os.environ.get('BUCKET_NAME', '')
-        AWS_AK = os.environ.get('AWS_AK', '')
-        print("AWS_AK:",AWS_AK)
-        print("bucket_name:",bucket_name)
-        # return
-        resultInfo = {
-            'statusCode': 200,
-            'body': json.dumps('Execution completed successfully')
-        }
-        for record in event['Records']:
+    # 从 SQS 事件中获取消息
+    print("event:",json.dumps(event, ensure_ascii=True))
+    print("root dir:",str(pathlib.Path.cwd()))
+    # 读取环境变量中的目录前缀
+    dir_prefix = os.environ.get('DIR_PREFIX', '')
+    bucket_name = os.environ.get('BUCKET_NAME', '')
+    AWS_AK = os.environ.get('AWS_AK', '')
+    print("AWS_AK:",AWS_AK)
+    print("bucket_name:",bucket_name)
+    # return
+    resultInfo = {
+        'statusCode': 200,
+        'body': json.dumps('Execution completed successfully')
+    }
+    for record in event['Records']:
+        try:
             message_id = record['messageId']
-            print(f"Processing message with ID: {message_id}")
-            print(f"Processing body: {record['body']}")
+            # print(f"Processing message with ID: {message_id}")
+            # print(f"Processing body: {record['body']}")
             params = json.loads(record['body'])
+            params['message_id'] = message_id
             params['crossAccounts'] = params.get('crossAccounts', True);
             errors = validate_json_data(params)
             if (errors is not None):
@@ -78,18 +79,18 @@ def handler(event, context):
                 }
                 run_sns_operations(params=params, resultInfo=resultInfo)
     
-    except Exception as e:
-        # 获取堆栈跟踪信息
-        traceback_str = ''.join(traceback.format_exception(type(e), e, e.__traceback__))
-        print(f"Error occurred while executing main function: {str(e)}")
-        print(traceback_str)
-        resultInfo = {
-            'statusCode': 500,
-            'body': f"Error occurred while executing main function: {str(e)}"
-        }
-        params['transactionId'] = transactionId
-        run_sns_operations(params=params, resultInfo=resultInfo)
-        return resultInfo
+        except Exception as e:
+            # 获取堆栈跟踪信息
+            traceback_str = ''.join(traceback.format_exception(type(e), e, e.__traceback__))
+            print(f"Error occurred while executing main function: {str(e)}")
+            print(traceback_str)
+            resultInfo = {
+                'statusCode': 500,
+                'body': f"Error occurred while executing main function: {str(e)}"
+            }
+            params['transactionId'] = transactionId
+            run_sns_operations(params=params, resultInfo=resultInfo)
+            return resultInfo
     return resultInfo
 
 def validate_json_data(data):

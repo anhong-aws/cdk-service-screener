@@ -22,7 +22,30 @@ def getMessages(params,resultInfo):
             }
     return json.dumps(message)
 
+def getLog(params,resultInfo):
+    custCode = params.get('custCode', 'NONE')
+    outputUrl = params.get('outputUrl', 'NONE')
+    transactionId = params.get('transactionId', 'NONE')
+    now = datetime.datetime.now()
+    formatted_time = f"{now:%Y-%m-%d %H:%M:%S}"
+    message = {
+                "transactionId": transactionId,
+                "parentType": "service-screener",
+                "subType": "reporter-completed",
+                "statusCode": resultInfo["statusCode"],
+                "body": resultInfo["body"],
+                "custCode": custCode,
+                "outputUrl": outputUrl,
+                "responseTime": formatted_time
+            }
+    params.update(message)
+    return json.dumps(params)
+
 def run_sns_operations(params, resultInfo):
+    callback(params,resultInfo)
+    saveLogs(params,resultInfo)
+
+def callback(params, resultInfo):
     topic_name="service-screener-topic"
     topic_arn = check_topic_existence(topic_name)
     message = getMessages(params,resultInfo)
@@ -32,6 +55,16 @@ def run_sns_operations(params, resultInfo):
     custCode = params.get('custCode', 'NONE')
     publish_message_to_topic(topic_arn, subject, message, custCode, type)
 
+
+def saveLogs(params, resultInfo):
+    topic_name="screener-log-topic"
+    topic_arn = check_topic_existence(topic_name)
+    message = getLog(params,resultInfo)
+    # 发布消息到主题
+    subject = 'save screenerlog'
+    type = 'notify'
+    custCode = params.get('custCode', 'NONE')
+    publish_message_to_topic(topic_arn, subject, message, custCode, type)
 
 
 def get_sns():
