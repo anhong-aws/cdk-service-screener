@@ -85,7 +85,22 @@ RoleName为跨账户的体检角色
   "crossAccounts": false
 }
 ```
-
+针对跨账户的个别aws帐号指定不同角色
+```
+{
+  "transactionId": "123",
+	"regions": "us-east-1",
+	"services": "ec2",
+	"custCode": "cust01",
+	"crossAccountsInfo": {
+		"accountLists": {
+			"123123238899": {
+  			"RoleName": "SwitchAccountAccessRole"
+  		}
+		}
+	}
+}
+```
 这里面执行的环境需要对体检的帐号要有权限，这里采用默认角色，更多[参数说明](param.md)
 
 2.服务体检报告处理后，发送消息到sns，比如在sns上配置邮件订阅，或者http订阅
